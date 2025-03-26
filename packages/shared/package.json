@@ -1,0 +1,8 @@
+{
+  "name": "@autobg/shared",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "vitest"
+  }
+}

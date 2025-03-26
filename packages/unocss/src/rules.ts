@@ -1,11 +1,12 @@
-import { Rule } from "@unocss/core";
-import { aliasToRelativePath, isAlias, normalizePath } from "./utils";
-import { RequiredAutobgPresetOptions } from "./options";
-import { isAbsolute, join, resolve } from "path";
-import { existsSync, readFileSync } from "fs";
+import type { Rule } from '@unocss/core'
+import type { RequiredAutobgPresetOptions } from './options'
+import { existsSync, readFileSync } from 'node:fs'
+import { isAbsolute, join, resolve } from 'node:path'
+import process from 'node:process'
 import { imageSize } from 'image-size'
+import { aliasToRelativePath, isAlias, normalizePath } from './utils'
 
-export const rules = (options: RequiredAutobgPresetOptions): Rule<object>[] => {
+export function rules(options: RequiredAutobgPresetOptions): Rule<object>[] {
   const root = process.cwd()
   const { publicPath, alias } = options
   return [
@@ -45,6 +46,6 @@ export const rules = (options: RequiredAutobgPresetOptions): Rule<object>[] => {
         'width': width ? `${width}px` : `unset`,
         'height': height ? `${height}px` : `unset`,
       }
-    }]
+    }],
   ]
 }

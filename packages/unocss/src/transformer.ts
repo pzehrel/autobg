@@ -1,12 +1,12 @@
-import { HighlightAnnotation, SourceCodeTransformer  } from '@unocss/core'
-import { RequiredAutobgPresetOptions } from './options'
+import type { HighlightAnnotation, SourceCodeTransformer } from '@unocss/core'
+import type { RequiredAutobgPresetOptions } from './options'
+import { existsSync } from 'node:fs'
+import { dirname, isAbsolute, join, resolve } from 'node:path'
+import process from 'node:process'
 import { name as PKG_NAME } from '../package.json'
-import { dirname, isAbsolute, join, resolve } from 'path'
-import { isHttp, normalizePath, aliasToRelativePath, isRelative, isAlias, absoluteToAliasPath, getAliasSymbol } from './utils'
-import { existsSync } from 'fs'
+import { absoluteToAliasPath, aliasToRelativePath, getAliasSymbol, isAlias, isHttp, isRelative, normalizePath } from './utils'
 
-
-export const transformer = (options: RequiredAutobgPresetOptions): SourceCodeTransformer => {
+export function transformer(options: RequiredAutobgPresetOptions): SourceCodeTransformer {
   const root = process.cwd()
   const { alias, publicPath } = options
 
@@ -20,12 +20,13 @@ export const transformer = (options: RequiredAutobgPresetOptions): SourceCodeTra
       const annotations: HighlightAnnotation[] = []
 
       for (const match of matches) {
-
         const [pattern, rawPath] = match
-        if (!pattern) continue
+        if (!pattern)
+          continue
 
-        let cssPath = normalizePath(rawPath)
-        if (!cssPath || isHttp(cssPath)) continue
+        const cssPath = normalizePath(rawPath)
+        if (!cssPath || isHttp(cssPath))
+          continue
 
         let filePath = cssPath
 
@@ -59,15 +60,13 @@ export const transformer = (options: RequiredAutobgPresetOptions): SourceCodeTra
         annotations.push({
           offset: start,
           length: pattern.length,
-          className: pattern
+          className: pattern,
         })
-
       }
 
       return {
-        highlightAnnotations: annotations
+        highlightAnnotations: annotations,
       }
-      
-    }
+    },
   }
 }

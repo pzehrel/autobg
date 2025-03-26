@@ -1,39 +1,39 @@
-import { isAbsolute, join, resolve } from "node:path"
-import { AliasConfig, AutobgPresetOptions } from "./options"
+import type { AliasConfig } from './options'
+import { isAbsolute, join } from 'node:path'
 
-export const normalizePath = (path: string) => {
+export function normalizePath(path: string) {
   return path
     .replace(/^\[(.*)\]$/, '$1') // 去掉 []
     .replace(/^url\((.*)\)$/, '$1') // 去掉 url()
     .replace(/^['"](.*)['"]$/, '$1') // 去掉引号
 }
 
-export const isHttp = (path: string) => {
+export function isHttp(path: string) {
   return path.startsWith('http') || path.startsWith('//')
 }
 
-export const isRelative = (path: string) => {
+export function isRelative(path: string) {
   return !isAbsolute(path)
 }
 
-export const isAlias = (path: string, aliasConfig: AliasConfig) => {
+export function isAlias(path: string, aliasConfig: AliasConfig) {
   return Object.entries(aliasConfig).some(([key]) => path.startsWith(key))
 }
 
-export const getAliasSymbol = (path: string, aliasConfig: AliasConfig) => {
+export function getAliasSymbol(path: string, aliasConfig: AliasConfig) {
   return Object.entries(aliasConfig).find(([key]) => path.startsWith(key))?.[0]
 }
 
-export const aliasToRelativePath = (path: string, aliasConfig: AliasConfig) => {
+export function aliasToRelativePath(path: string, aliasConfig: AliasConfig) {
   const alias = Object.entries(aliasConfig).find(([key]) => path.startsWith(key))
-  if (!alias) return path
+  if (!alias)
+    return path
 
   const [key, value] = alias
   return path.replace(new RegExp(`^${key}`), value)
 }
 
-export const absoluteToAliasPath = (path: string, root: string, aliasConfig: AliasConfig, aliasSymbol?: string) => {
-
+export function absoluteToAliasPath(path: string, root: string, aliasConfig: AliasConfig, aliasSymbol?: string) {
   path = path.replace(root, '')
 
   const alias = aliasSymbol ? Object.entries(aliasConfig).find(([key]) => key === aliasSymbol) : undefined

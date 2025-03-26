@@ -1,11 +1,15 @@
+import type { AliasConfig, AutobgPresetOptions, RequiredAutobgPresetOptions } from './options'
 import { definePreset } from '@unocss/core'
 import { name } from '../package.json'
 import { rules } from './rules'
 import { transformer } from './transformer'
-import { AliasConfig, AutobgPresetOptions, RequiredAutobgPresetOptions } from './options'
+
+const DEFAULT_ALIAS: AliasConfig = {
+  '@': 'src',
+  '~@': 'src',
+}
 
 export const autobgPreset = definePreset<AutobgPresetOptions, object>((options) => {
-
   const opts: RequiredAutobgPresetOptions = Object.assign({
     alias: DEFAULT_ALIAS,
     publicPath: 'public',
@@ -19,11 +23,4 @@ export const autobgPreset = definePreset<AutobgPresetOptions, object>((options) 
   }
 })
 
-
 export default autobgPreset
-
-
-const DEFAULT_ALIAS: AliasConfig = {
-  '@': 'src',
-  '~@': 'src',
-}

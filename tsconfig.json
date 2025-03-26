@@ -7,6 +7,9 @@
     ],
     "module": "esnext",
     "moduleResolution": "Bundler",
+    "paths": {
+      "@autobg/shared": ["./packages/shared/src"]
+    },
     "resolveJsonModule": true,
     "types": [
       "node"
@@ -16,6 +19,9 @@
     "esModuleInterop": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true
-
-  }
+  },
+  "include": [
+    "packages/**/*.ts",
+    "packages/**/*.tsx"
+  ]
 }
