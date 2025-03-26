@@ -1,0 +1,16 @@
+{
+  "name": "@autobg/unocss",
+  "type": "module",
+  "version": "1.0.0",
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
+  "require": "dist/index.cjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "unbuild"
+  },
+  "dependencies": {
+    "@unocss/core": "66.0.0",
+    "image-size": "^2.0.1"
+  }
+}
