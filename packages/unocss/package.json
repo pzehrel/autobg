@@ -2,15 +2,25 @@
   "name": "@autobg/unocss",
   "type": "module",
   "version": "1.0.0",
+  "license": "MIT",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "require": "dist/index.cjs",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "unbuild"
   },
-  "dependencies": {
-    "@unocss/core": "66.0.0",
+  "peerDependencies": {
+    "@unocss/core": "<=66.0.0",
     "image-size": "^2.0.1"
+  },
+  "dependencies": {
+    "image-size": "^2.0.1"
+  },
+  "devDependencies": {
+    "@unocss/core": "66.0.0"
   }
 }

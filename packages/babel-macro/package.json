@@ -8,10 +8,13 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist"
-
   ],
   "scripts": {
     "build": "unbuild"
+  },
+  "peerDependencies": {
+    "babel-plugin-macros": "^3.1.0",
+    "image-size": "^2.0.1"
   },
   "dependencies": {
     "@babel/core": "^7.26.10",

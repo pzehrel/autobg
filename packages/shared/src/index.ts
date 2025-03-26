@@ -100,3 +100,9 @@ export function resolveFilePath(options: ResolveFilePathOptions) {
 
   return filePath
 }
+
+export const DEFAULT_ALIAS: AliasConfig = {
+  '@/': 'src',
+  '~@/': 'src',
+  '~/': 'src',
+}

@@ -1,4 +1,4 @@
-export type AliasConfig = Record<string, string>
+import type { AliasConfig } from '@autobg/shared'
 
 export interface AutobgPresetOptions {
   /**

@@ -3,8 +3,9 @@ import type { RequiredAutobgPresetOptions } from './options'
 import { existsSync, readFileSync } from 'node:fs'
 import { isAbsolute, join, resolve } from 'node:path'
 import process from 'node:process'
+import { isAlias } from '@autobg/shared'
 import { imageSize } from 'image-size'
-import { aliasToRelativePath, isAlias, normalizePath } from './utils'
+import { aliasToRelativePath, normalizePath } from './utils'
 
 export function rules(options: RequiredAutobgPresetOptions): Rule<object>[] {
   const root = process.cwd()
