@@ -1,3 +1,6 @@
+# webpack build output
+build
+
 
 # Created by https://www.toptal.com/developers/gitignore/api/macos,windows,linux,node,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,windows,linux,node,visualstudiocode
@@ -126,7 +129,7 @@ web_modules/
 .yarn-integrity
 
 # dotenv environment variable files
-.env
+!.env
 .env.development.local
 .env.test.local
 .env.production.local
