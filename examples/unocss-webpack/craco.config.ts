@@ -1,6 +1,6 @@
-import { CracoConfig } from '@craco/types'
+import type { CracoConfig } from '@craco/types'
+import { resolve } from 'node:path'
 import unocss from '@unocss/webpack'
-import { resolve } from 'path'
 
 export default {
   webpack: {
@@ -11,14 +11,14 @@ export default {
       const entryArray = Array.isArray(entry) ? entry : [entry]
       config.entry = [
         'uno.css', // src/index.ts is not allowed to import content outside of the src directory.
-        ...entryArray
+        ...entryArray,
       ]
 
       return config
     },
     alias: {
-      '@': resolve(__dirname, 'src')
-    }
+      '@': resolve(__dirname, 'src'),
+    },
   },
 
   eslint: {

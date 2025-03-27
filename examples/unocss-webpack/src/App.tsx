@@ -1,12 +1,16 @@
-import './App.css';
+import './App.css'
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <div className='inline-block autobg-[url(@/assets/logo.png)]'></div>
+        <div className="inline-block autobg-[url(@/assets/logo.png)]"></div>
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          Edit
+          {' '}
+          <code>src/App.tsx</code>
+          {' '}
+          and save to reload.
         </p>
         <a
           className="App-link"
@@ -18,7 +22,7 @@ function App() {
         </a>
       </header>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -1,6 +1,6 @@
-import './App.css';
-import styled from 'styled-components';
-import autobg from '@autobg/babel.macro';
+import autobg from '@autobg/babel.macro'
+import styled from 'styled-components'
+import './App.css'
 
 const Logo = styled.div`
   ${autobg('@/assets/logo.png')}
@@ -10,9 +10,13 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Logo className='App-logo' />
+        <Logo className="App-logo" />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          Edit
+          {' '}
+          <code>src/App.tsx</code>
+          {' '}
+          and save to reload.
         </p>
         <a
           className="App-link"
@@ -24,7 +28,7 @@ function App() {
         </a>
       </header>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

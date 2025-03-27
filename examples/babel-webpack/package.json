@@ -1,6 +1,11 @@
 {
   "name": "babel-webpack",
   "private": true,
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test"
+  },
   "dependencies": {
     "@craco/types": "^7.1.0",
     "react": "^19.0.0",
@@ -17,11 +22,6 @@
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
     "babel-plugin-styled-components": "^2.1.4"
-  },
-  "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test"
   },
   "browserslist": {
     "production": [

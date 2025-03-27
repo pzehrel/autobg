@@ -1,6 +1,11 @@
 {
   "name": "unocss-webpack",
   "private": true,
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test"
+  },
   "dependencies": {
     "@craco/types": "^7.1.0",
     "react": "^19.0.0",
@@ -18,11 +23,6 @@
     "@unocss/preset-uno": "66.1.0-beta.7",
     "@unocss/webpack": "66.1.0-beta.7",
     "unocss": "66.0.0"
-  },
-  "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test"
   },
   "browserslist": {
     "production": [
