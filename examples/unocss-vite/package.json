@@ -1,7 +1,6 @@
 {
   "name": "unocss-vite",
   "type": "module",
-  "version": "0.0.0",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -9,7 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@autobg/unocss": "workspace:*",
+    "@autobg/unocss": "link:../../packages/unocss",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "unocss": "66.0.0"
