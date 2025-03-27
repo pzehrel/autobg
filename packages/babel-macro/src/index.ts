@@ -1,11 +1,10 @@
 import type { AutobgMacroConfig } from './config'
 import { existsSync, readFileSync } from 'node:fs'
 import process from 'node:process'
-import { isHttp, resolveFilePath } from '@autobg/shared'
+import { isHttp, resolveConfig, resolveFilePath } from '@autobg/shared'
 import { isCallExpression } from '@babel/types'
 import { createMacro } from 'babel-plugin-macros'
 import { imageSize } from 'image-size'
-import { resolveConfig } from './config'
 import { autoCssSize, overwrite } from './utils'
 
 export { defineAutobgMacro } from './config'

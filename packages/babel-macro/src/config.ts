@@ -1,19 +1,10 @@
-import type { AliasConfig } from '@autobg/shared'
-import { DEFAULT_ALIAS } from '@autobg/shared'
+import type { Config } from '@autobg/shared'
+import { resolveConfig } from '@autobg/shared'
 
-export interface AutobgMacroConfig {
-  /**
-   * alias config
-   */
-  alias?: AliasConfig
+export interface AutobgMacroConfig extends Config {
 
   /**
-   * public path
-   */
-  publicPath?: string
-
-  /**
-   * css unit
+   * generate css value unit
    * @default 'px'
    */
   unit?: 'px' | 'rem' | 'vw'
@@ -39,24 +30,11 @@ export interface AutobgMacroConfig {
 
 export type RequiredAutobgMacroConfig = Required<AutobgMacroConfig>
 
-export const defaultAutobgMacroConfig: RequiredAutobgMacroConfig = {
-  alias: DEFAULT_ALIAS,
-  publicPath: 'public',
-
+export const defaultAutobgMacroConfig = resolveConfig<RequiredAutobgMacroConfig>({
   unit: 'px',
   designWidth: 750,
   rootValue: 100,
   unitPrecision: 5,
-}
-
-export function resolveConfig(...configs: AutobgMacroConfig[]): RequiredAutobgMacroConfig {
-  const config = Object.assign({}, defaultAutobgMacroConfig, ...configs)
-
-  if (config.baseUrl) {
-    config.basePath = config.baseUrl
-  }
-
-  return config
-}
+})
 
 export const defineAutobgMacro = (config: AutobgMacroConfig) => config

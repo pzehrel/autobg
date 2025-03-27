@@ -30,17 +30,17 @@
     "build": "unbuild"
   },
   "peerDependencies": {
-    "babel-plugin-macros": "^3.1.0",
-    "image-size": "^2.0.1"
+    "babel-plugin-macros": "catalog:",
+    "image-size": "catalog:"
   },
   "dependencies": {
-    "@babel/core": "^7.26.10",
-    "@babel/types": "^7.27.0",
-    "babel-plugin-macros": "^3.1.0",
-    "image-size": "^2.0.1"
+    "@babel/core": "catalog:",
+    "@babel/types": "catalog:",
+    "babel-plugin-macros": "catalog:",
+    "image-size": "catalog:"
   },
   "devDependencies": {
-    "@types/babel-plugin-macros": "^3.1.3",
-    "@types/babel__core": "^7.20.5"
+    "@types/babel-plugin-macros": "catalog:",
+    "@types/babel__core": "catalog:"
   }
 }

@@ -9,11 +9,11 @@
     "url": "https://github.com/pzehrel"
   },
   "license": "MIT",
-  "homepage": "https://github.com/pzehrel/autobg/tree/main/packages/babel-macro",
+  "homepage": "https://github.com/pzehrel/autobg/tree/main/packages/unocss",
   "repository": {
     "type": "git",
     "url": "https://github.com/pzehrel/autobg.git",
-    "directory": "packages/babel-macro"
+    "directory": "packages/unocss"
   },
   "bugs": {
     "url": "https://github.com/pzehrel/autobg/issues"
@@ -30,13 +30,10 @@
     "build": "unbuild"
   },
   "peerDependencies": {
-    "@unocss/core": "<=66.0.0",
-    "image-size": "^2.0.1"
+    "image-size": "catalog:"
   },
   "dependencies": {
-    "image-size": "^2.0.1"
-  },
-  "devDependencies": {
-    "@unocss/core": "66.0.0"
+    "@unocss/core": "catalog:",
+    "image-size": "catalog:"
   }
 }
