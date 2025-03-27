@@ -84,9 +84,6 @@ importers:
         specifier: ^6.1.16
         version: 6.1.16(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
     devDependencies:
-      '@eslint/js':
-        specifier: ^9.21.0
-        version: 9.23.0
       '@types/react':
         specifier: ^19.0.10
         version: 19.0.12
@@ -164,9 +161,6 @@ importers:
         specifier: 66.0.0
         version: 66.0.0(postcss@8.5.3)(vite@6.2.3(@types/node@22.13.13)(jiti@2.4.2)(terser@5.39.0)(yaml@2.7.0))(vue@3.5.13(typescript@5.7.3))
     devDependencies:
-      '@eslint/js':
-        specifier: ^9.21.0
-        version: 9.23.0
       '@types/react':
         specifier: ^19.0.10
         version: 19.0.12
