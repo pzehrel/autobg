@@ -8,11 +8,13 @@
     "build": "pnpm -r build",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "test": "vitest"
+    "test": "vitest",
+    "release": "bumpp -r --excute=\"pnpm i\""
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.11.0",
     "@types/node": "^22.13.13",
+    "bumpp": "^10.1.0",
     "eslint": "^9.23.0",
     "unbuild": "^3.5.0",
     "vitest": "^3.0.9"
