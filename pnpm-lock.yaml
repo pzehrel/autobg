@@ -50,12 +50,13 @@ importers:
 
   packages/unocss:
     dependencies:
-      '@unocss/core':
-        specifier: 66.0.0
-        version: 66.0.0
       image-size:
         specifier: ^2.0.1
         version: 2.0.1
+    devDependencies:
+      '@unocss/core':
+        specifier: 66.0.0
+        version: 66.0.0
 
 packages:
 
