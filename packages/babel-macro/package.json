@@ -18,6 +18,19 @@
   "bugs": {
     "url": "https://github.com/pzehrel/autobg/issues"
   },
+  "keywords": [
+    "autobg",
+    "babel",
+    "macro",
+    "background",
+    "image",
+    "autobg.macro",
+    "autobg-macro",
+    "babel macros",
+    "macros",
+    "babel-plugin-macros",
+    "styled-components"
+  ],
   "sideEffects": false,
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",

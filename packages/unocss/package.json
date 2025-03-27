@@ -18,6 +18,16 @@
   "bugs": {
     "url": "https://github.com/pzehrel/autobg/issues"
   },
+  "keywords": [
+    "autobg",
+    "babel",
+    "macro",
+    "background",
+    "image",
+    "unocss",
+    "unocss-preset-autobg",
+    "unocss-preset"
+  ],
   "sideEffects": false,
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
