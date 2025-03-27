@@ -22,6 +22,8 @@
   },
   "include": [
     "packages/**/*.ts",
-    "packages/**/*.tsx"
+    "packages/**/*.tsx",
+    "test/**/*.ts",
+    "test/**/*.tsx"
   ]
 }

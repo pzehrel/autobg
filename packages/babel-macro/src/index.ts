@@ -9,8 +9,9 @@ import { resolveConfig } from './config'
 import { autoCssSize, overwrite } from './utils'
 
 export { defineAutobgMacro } from './config'
+export type { AutobgMacroConfig } from './config'
 
-const autobg = createMacro(({ references, state, babel, config }) => {
+export const autobg = createMacro(({ references, state, babel, config }) => {
   references.default.forEach((reference) => {
     if (
       !reference.parentPath
@@ -36,14 +37,14 @@ const autobg = createMacro(({ references, state, babel, config }) => {
       'background-position': 'center',
     }
 
-    // The http resource will not inject width and height.
+    // The http resource will not inject width and height
     if (isHttp(cssPath)) {
       css['background-image'] = `url(${cssPath})`
       overwrite({ babel, reference, css })
       return
     }
 
-    // 生成资源的引用
+    // generate resource reference
     const viteInjectCode = `new URL('${cssPath}', import.meta.url).href`
     const webpackInjectCode = `require('${cssPath}')?.default ?? require('${cssPath}')`
     const injectCode = `typeof require === 'undefined' ? ${viteInjectCode} : ${webpackInjectCode}`

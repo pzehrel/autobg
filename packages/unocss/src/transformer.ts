@@ -1,11 +1,11 @@
+import type { RequiredConfig } from '@autobg/shared'
 import type { HighlightAnnotation, SourceCodeTransformer } from '@unocss/core'
-import type { RequiredAutobgPresetOptions } from './options'
 import process from 'node:process'
 import { getAliasSymbol, isHttp, resolveFilePath } from '@autobg/shared'
 import { name as PKG_NAME } from '../package.json'
 import { absoluteToAliasPath, normalizePath } from './utils'
 
-export function transformer(options: RequiredAutobgPresetOptions): SourceCodeTransformer {
+export function transformer(options: RequiredConfig): SourceCodeTransformer {
   const root = process.cwd()
   const { alias, publicPath } = options
 
@@ -20,21 +20,33 @@ export function transformer(options: RequiredAutobgPresetOptions): SourceCodeTra
 
       for (const match of matches) {
         const [pattern, rawPath] = match
-        if (!pattern)
+        if (!pattern) {
           continue
+        }
 
         const cssPath = normalizePath(rawPath)
-        if (!cssPath || isHttp(cssPath))
+        if (!cssPath) {
           continue
+        }
 
-        const filePath = resolveFilePath({ cssPath, alias, id, root, publicPath })
+        let resultPath = ''
 
-        // 优先使用别名路径，如果cssPath传入的时候不是别名路径，则使用相对项目根目录的绝对路径
-        const rulePath = absoluteToAliasPath(filePath, root, alias, getAliasSymbol(cssPath, alias))
+        if (isHttp(cssPath)) {
+          resultPath = cssPath
+        }
+        else {
+          const filePath = resolveFilePath({ cssPath, alias, id, root, publicPath })
+
+          // Prefer to use alias paths; if the cssPath is not an alias path when passed in,
+          // then use the absolute path relative to the project root directory.
+          const rulePath = absoluteToAliasPath(filePath, root, alias, getAliasSymbol(cssPath, alias))
+
+          resultPath = rulePath
+        }
 
         const start = match.index
         const end = start + pattern.length
-        mcode.overwrite(start, end, `autobg-[url(${rulePath})]`)
+        mcode.overwrite(start, end, `autobg-[url(${resultPath})]`)
 
         annotations.push({
           offset: start,

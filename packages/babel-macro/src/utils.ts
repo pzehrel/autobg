@@ -26,6 +26,9 @@ interface OverviewOptions {
   reference: Babel.NodePath
 }
 
+/**
+ * modify code
+ */
 export function overwrite({ css, babel, reference }: OverviewOptions) {
   const code = Object.entries(css).reduce((acc, [key, value]) => {
     if (value === undefined || value === null) {
@@ -34,6 +37,11 @@ export function overwrite({ css, babel, reference }: OverviewOptions) {
     value = value.endsWith(';') ? value : `${value};`
     return acc += `${key}: ${value}`
   }, '')
+
+  // TODO: 使用 babel.template 生成 ast
+  // const template = babel.template(`\`${code}\``)
+  // const ast = template()
+  // reference.parentPath?.replaceWith(ast.expression)
 
   const body = babel.parse(`var str = \`${code}\``)?.program.body[0] as VariableDeclaration | undefined
   const ast = body?.declarations[0].init

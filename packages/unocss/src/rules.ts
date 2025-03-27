@@ -1,5 +1,5 @@
+import type { RequiredConfig } from '@autobg/shared'
 import type { Rule } from '@unocss/core'
-import type { RequiredAutobgPresetOptions } from './options'
 import { existsSync, readFileSync } from 'node:fs'
 import { isAbsolute, join, resolve } from 'node:path'
 import process from 'node:process'
@@ -7,7 +7,7 @@ import { isAlias } from '@autobg/shared'
 import { imageSize } from 'image-size'
 import { aliasToRelativePath, normalizePath } from './utils'
 
-export function rules(options: RequiredAutobgPresetOptions): Rule<object>[] {
+export function rules(options: RequiredConfig): Rule<object>[] {
   const root = process.cwd()
   const { publicPath, alias } = options
   return [

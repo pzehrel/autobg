@@ -2,6 +2,23 @@
   "name": "@autobg/babel.macro",
   "type": "module",
   "version": "0.0.1",
+  "description": "Set the width and height of elements based on the background image",
+  "author": {
+    "email": "pzehrel@gmail.com",
+    "name": "pzehrel",
+    "url": "https://github.com/pzehrel"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/pzehrel/autobg/tree/main/packages/babel-macro",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pzehrel/autobg.git",
+    "directory": "packages/babel-macro"
+  },
+  "bugs": {
+    "url": "https://github.com/pzehrel/autobg/issues"
+  },
+  "sideEffects": false,
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "require": "dist/index.cjs",

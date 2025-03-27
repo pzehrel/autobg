@@ -1,5 +1,5 @@
+import { aliasToRelativePath } from '@autobg/shared'
 import { describe, expect, it } from 'vitest'
-import { aliasToRelativePath } from '../index'
 
 describe('aliasToRelativePath', () => {
   const aliasConfig = {

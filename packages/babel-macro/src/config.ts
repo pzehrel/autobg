@@ -1,4 +1,5 @@
 import type { AliasConfig } from '@autobg/shared'
+import { DEFAULT_ALIAS } from '@autobg/shared'
 
 export interface AutobgMacroConfig {
   /**
@@ -39,11 +40,7 @@ export interface AutobgMacroConfig {
 export type RequiredAutobgMacroConfig = Required<AutobgMacroConfig>
 
 export const defaultAutobgMacroConfig: RequiredAutobgMacroConfig = {
-  alias: {
-    '~@/': 'src',
-    '@/': 'src',
-    '~/': 'src',
-  },
+  alias: DEFAULT_ALIAS,
   publicPath: 'public',
 
   unit: 'px',
