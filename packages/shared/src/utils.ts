@@ -1,6 +1,7 @@
 import type { AliasConfig } from './config'
 import { existsSync } from 'node:fs'
-import { dirname, isAbsolute, join, resolve } from 'node:path'
+import { dirname, isAbsolute, resolve } from 'node:path'
+import { join } from 'node:path/posix'
 
 export function isHttp(url: string) {
   return /^https?:\/\//.test(url) || /^\/\//.test(url)
