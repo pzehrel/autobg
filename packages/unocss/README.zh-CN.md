@@ -49,10 +49,10 @@ export function Component() {
     <>
       {/* 使用路径别名 */}
       <div className="autobg-['url(@/assets/foo.png)']" />
-      
+
       {/* 使用相对路径 */}
       <div className="autobg-['url(./assets/foo.png)']" />
-      
+
       {/* 使用 public 目录下的图片 */}
       <div className="autobg-['url(/foo.png)']" />
     </>
@@ -68,7 +68,6 @@ export function Component() {
 | --- | --- | --- | --- |
 | publicPath | `string` | `'public'` | public 目录路径，需要与构建工具配置保持一致 |
 | alias | `Record<string, string>` | `{ '@/': 'src/', '~': 'src/', '~@/': 'src/' }` | 路径别名配置，需要与构建工具配置保持一致。不使用路径别名时，传入空对象 `{}` |
-
 
 ## 许可证
 

@@ -107,7 +107,6 @@ export function Component() {
 | designWidth | `number` | `750` | 设计稿宽度（仅在 `unit` 为 `'vw'` 时生效） |
 | unitPrecision | `number` | `5` | `px` 转换为 `rem` 或 `vw` 时的精度（小数位数） |
 
-
 ## 许可证
 
 MIT

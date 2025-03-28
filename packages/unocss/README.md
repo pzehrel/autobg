@@ -51,10 +51,10 @@ export function Component() {
     <>
       {/* Using path alias */}
       <div className="autobg-['url(@/assets/foo.png)']" />
-      
+
       {/* Using relative path */}
       <div className="autobg-['url(./assets/foo.png)']" />
-      
+
       {/* Using image from public directory */}
       <div className="autobg-['url(/foo.png)']" />
     </>
@@ -69,8 +69,7 @@ export function Component() {
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
 | publicPath | `string` | `'public'` | Path to the public directory, should match build tool configuration |
-| alias | `Record<string, string>` | `{ '@/': 'src/', '~': 'src/', '~@/': 'src/' }` | Path alias configuration, should match build tool configuration. Pass an empty object `{}` if not using path aliases | 
-
+| alias | `Record<string, string>` | `{ '@/': 'src/', '~': 'src/', '~@/': 'src/' }` | Path alias configuration, should match build tool configuration. Pass an empty object `{}` if not using path aliases |
 
 ## License
 
