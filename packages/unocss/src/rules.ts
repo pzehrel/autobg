@@ -39,7 +39,7 @@ export function rules(options: RequiredConfig): Rule<object>[] {
       }
 
       return {
-        '--un-url': `url(${url})`,
+        '--un-url': `url('${url}')`,
         'background-image': 'var(--un-url)',
         'background-repeat': 'no-repeat',
         'background-size': 'cover',

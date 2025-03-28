@@ -38,11 +38,6 @@ export function overwrite({ css, babel, reference }: OverviewOptions) {
     return acc += `${key}: ${value}`
   }, '')
 
-  // TODO: 使用 babel.template 生成 ast
-  // const template = babel.template(`\`${code}\``)
-  // const ast = template()
-  // reference.parentPath?.replaceWith(ast.expression)
-
   const body = babel.parse(`var str = \`${code}\``)?.program.body[0] as VariableDeclaration | undefined
   const ast = body?.declarations[0].init
   if (ast) {
