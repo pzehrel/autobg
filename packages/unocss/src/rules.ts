@@ -3,9 +3,9 @@ import type { Rule } from '@unocss/core'
 import { existsSync, readFileSync } from 'node:fs'
 import { isAbsolute, join, resolve } from 'node:path'
 import process from 'node:process'
-import { isAlias } from '@autobg/shared'
+import { aliasToRelativePath, isAlias } from '@autobg/shared'
 import { imageSize } from 'image-size'
-import { aliasToRelativePath, normalizePath } from './utils'
+import { normalizePath } from './utils'
 
 export function rules(options: RequiredConfig): Rule<object>[] {
   const root = process.cwd()

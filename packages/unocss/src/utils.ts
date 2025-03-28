@@ -8,15 +8,6 @@ export function normalizePath(path: string) {
     .replace(/^['"](.*)['"]$/, '$1') // 去掉引号
 }
 
-export function aliasToRelativePath(path: string, aliasConfig: AliasConfig) {
-  const alias = Object.entries(aliasConfig).find(([key]) => path.startsWith(key))
-  if (!alias)
-    return path
-
-  const [key, value] = alias
-  return path.replace(new RegExp(`^${key}`), value)
-}
-
 export function absoluteToAliasPath(path: string, root: string, aliasConfig: AliasConfig, aliasSymbol?: string) {
   path = path.replace(root, '')
 
