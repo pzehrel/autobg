@@ -1,5 +1,5 @@
 import type { AliasConfig } from '@autobg/shared'
-import { join } from 'node:path/posix'
+import { join } from 'node:path'
 
 export function normalizePath(path: string) {
   return path
