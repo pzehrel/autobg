@@ -1,97 +1,22 @@
-Automatically generate CSS code for background image, width, and height based on the given image path
+# autobg
 
-[中文文档](https://github.com/pzehrel/autobg/blob/main/README.zh-CN.md)
-
-Inspired by [littlee/autobg.macro](https://github.com/littlee/autobg.macro) project, added UnoCSS version
+A tool that generates CSS styles to match element dimensions with image aspect ratios, referenced from [littlee/autobg.macro](https://github.com/littlee/autobg.macro) project, now with UnoCSS support.
 
 ## Features
 
-- Support both Babel Macro and UnoCSS usage
-- Automatically calculate background image aspect ratio
-- Support webpack and vite
-- Support path aliases
-- Support relative and absolute paths
-- Support custom units and design width
-
-## Installation
-
-### Babel Macro Version
-
-```bash
-pnpm install @autobg/babel.macro
-```
-
-### UnoCSS Version
-
-```bash
-pnpm install @autobg/unocss
-```
+- 🎯 Supports both Babel Macro and UnoCSS usage
+- 📐 Automatically calculates and generates aspect ratio styles for background images
+- 🛠️ Compatible with webpack and vite build tools
+- 🔗 Supports path aliases
+- 📍 Supports both relative and absolute paths
+- ⚙️ Customizable units and design draft width
 
 ## Usage
 
-### Babel Macro Version
+For detailed documentation, please refer to:
 
-Create configuration file:
-```javascript
-// ./babel-plugin-macros.config.js
-
-const { defineAutobgMacro } = require('@autobg/babel.macro')
-
-module.exports = {
-  autobg: defineAutobgMacro({
-    unit: 'vw',
-    designWidth: 750,
-  })
-}
-```
-
-Usage example:
-```ts
-import { autobg } from '@autobg/babel.macro'
-import { styled } from 'styled-components'
-
-styled.div`
-  ${autobg('@/assets/test.png')}
-`
-```
-
-### UnoCSS Version
-
-Configure UnoCSS:
-```ts
-// uno.config.ts
-
-import { autobgPreset } from '@autobg/unocss'
-import { defineConfig } from 'unocss'
-
-export default defineConfig({
-  preset: [
-    autobgPreset()
-  ]
-})
-```
-
-Usage example:
-```tsx
-export function Component() {
-  return (
-    <>
-      <div className="autobg-[url('@/assets/test.png')]" />
-      <div className="autobg-[url('/test.png')]" />
-      <div className="autobg-[url('../test.png')]" />
-    </>
-  )
-}
-```
-
-> The transformer will convert relative paths to absolute paths or path alias paths relative to the project root, then pass them to vite or webpack to convert into compiled file paths
-
-## Configuration Options
-
-For configuration options, please refer to:
-- [babel-macro/src/config.ts](https://github.com/pzehrel/autobg/blob/main/packages/babel-macro/src/config.ts)
-- [unocss/src/config.ts](https://github.com/pzehrel/autobg/blob/main/packages/unocss/src/config.ts)
-- [shared/src/config.ts](https://github.com/pzehrel/autobg/blob/main/packages/shared/src/config.ts)
+- [Babel Macro Documentation](./packages/babel-macro/README.md)
+- [UnoCSS Documentation](./packages/unocss/README.md)
 
 ## License
 
