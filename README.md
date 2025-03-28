@@ -1,5 +1,7 @@
 # autobg
 
+[中文](./README.zh-CN.md)
+
 A tool that generates CSS styles to match element dimensions with image aspect ratios, referenced from [littlee/autobg.macro](https://github.com/littlee/autobg.macro) project, now with UnoCSS support.
 
 ## Features
