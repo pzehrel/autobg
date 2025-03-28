@@ -40,7 +40,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "unbuild"
+    "build": "unbuild",
+    "stub": "unbuild --stub"
   },
   "peerDependencies": {
     "babel-plugin-macros": "catalog:",
