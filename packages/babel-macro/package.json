@@ -1,7 +1,7 @@
 {
   "name": "@autobg/babel.macro",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Set the width and height of elements based on the background image",
   "author": {
     "email": "pzehrel@gmail.com",
