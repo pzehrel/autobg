@@ -1,16 +1,16 @@
 import type { AliasConfig } from '@autobg/shared'
-import { join, normalize } from 'node:path'
+import { join } from 'node:path'
 
 /**
  * Normalize the path of the url() function
  *
- * @see [regexp101](https://regex101.com/r/Xy4a64/1)
+ * @see [regexp101](https://regex101.com/r/WXZhLl/1)
  *
  * @param path - The path to normalize
  * @returns The normalized path
  */
 export function normalizePath(path: string) {
-  return path.replace(/^\[(?:url\(?)?['"]?(.+?)['"]?\)?\]$/, '$1')
+  return path.replace(/^\[?(?:url\(?)?['"]?(.+?)['"]?\)?\]?$/, '$1')
 }
 
 /**
