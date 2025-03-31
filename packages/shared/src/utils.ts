@@ -10,16 +10,8 @@ export function isDataUrl(url: string) {
   return /^data:image\/\w+;base64,/.test(url)
 }
 
-export function isAbsolutePath(url: string) {
-  return url.startsWith('/')
-}
-
-export function isRelativePath(url: string) {
-  return !isHttp(url) && !isDataUrl(url) && !isAbsolutePath(url)
-}
-
 export function isRelative(path: string) {
-  return !isAbsolute(path)
+  return !isHttp(path) && !isDataUrl(path) && !isAbsolute(path)
 }
 
 export function isAlias(path: string, aliasConfig: AliasConfig) {
