@@ -4,6 +4,16 @@ import './App.css'
 
 const Logo = styled.div`
   ${autobg('@/assets/logo.png')}
+  display: inline-block;
+`
+// webpack Error: You attempted to import /logo.png which falls outside of the project src/ directory. Relative imports outside of src/ are not supported.
+// const Logo2 = styled.div`
+//   ${autobg('/logo.png')}
+//   display: inline-block;
+// `
+const Logo3 = styled.div`
+  ${autobg('./assets/logo.png')}
+  display: inline-block;
 `
 
 function App() {
@@ -11,6 +21,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Logo className="App-logo" />
+        {/* <Logo2 className="App-logo" /> */}
+        <Logo3 className="App-logo" />
         <p>
           Edit
           {' '}
