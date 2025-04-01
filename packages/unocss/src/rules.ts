@@ -3,6 +3,7 @@ import type { Rule } from '@unocss/core'
 import type { Store } from './store'
 import { existsSync, readFileSync } from 'node:fs'
 import { isAbsolute, join } from 'node:path/posix'
+import process from 'node:process'
 import { isAlias } from '@autobg/shared'
 import { imageSize } from 'image-size'
 import { normalizePath } from './utils'
@@ -10,7 +11,8 @@ import { normalizePath } from './utils'
 export function rules(options: RequiredConfig, store: Store): Rule<object>[] {
   return [
     [/^autobg-(.*)$/, ([, rawPath]) => {
-      const root = store.root
+      // the vscode extension does not pass the root to the transformer, so we need to use the process.cwd()
+      const root = store.root || process.cwd()
 
       const path = normalizePath(rawPath)
       const filepath = resolveFilepath(path, root, options)
