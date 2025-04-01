@@ -1,5 +1,6 @@
 packages:
   - packages/*
+  - examples/*
 catalog:
   '@antfu/eslint-config': ^4.11.0
   '@babel/core': ^7.26.10
