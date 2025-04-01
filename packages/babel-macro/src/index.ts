@@ -1,7 +1,7 @@
 import type { RequiredConfig } from '@autobg/shared'
 import type { AutobgMacroConfig } from './config'
 import { existsSync, readFileSync } from 'node:fs'
-import { dirname, isAbsolute, join, resolve } from 'node:path/posix'
+import { dirname, isAbsolute, join, resolve } from 'node:path'
 import process from 'node:process'
 import { isAlias, isHttp, isRelative, resolveConfig } from '@autobg/shared'
 import { isCallExpression } from '@babel/types'
