@@ -1,8 +1,6 @@
-import process from 'node:process'
-
 export function createStore() {
   const state = {
-    root: process.cwd(),
+    root: undefined as string | undefined,
   }
 
   return {
