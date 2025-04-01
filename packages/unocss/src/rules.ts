@@ -2,7 +2,7 @@ import type { RequiredConfig } from '@autobg/shared'
 import type { Rule } from '@unocss/core'
 import type { Store } from './store'
 import { existsSync, readFileSync } from 'node:fs'
-import { isAbsolute, join } from 'node:path'
+import { isAbsolute, join } from 'node:path/posix'
 import { isAlias } from '@autobg/shared'
 import { imageSize } from 'image-size'
 import { normalizePath } from './utils'
@@ -70,11 +70,8 @@ function resolveFilepath(path: string, root: string, options: RequiredConfig) {
     }
 
     // public file exists
-    if (publicPath) {
-      const tmp = join('/', publicPath, path)
-      if (existsSync(tmp)) {
-        return tmp
-      }
+    if (publicPath && existsSync(join(root, publicPath, path))) {
+      return join('/', publicPath, path)
     }
   }
 
