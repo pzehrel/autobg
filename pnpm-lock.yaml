@@ -228,9 +228,6 @@ importers:
       '@types/react-dom':
         specifier: ^19.0.4
         version: 19.0.4(@types/react@19.0.12)
-      postcss:
-        specifier: ^8.5.3
-        version: 8.5.3
 
   examples/unocss-vite:
     dependencies:
