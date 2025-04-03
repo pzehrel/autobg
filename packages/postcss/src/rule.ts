@@ -8,7 +8,6 @@ import imageSize from 'image-size'
 export function createAutobgAtRule(config: RequiredConfig, root: string) {
   return (rule: AtRule) => {
     const cssPath = normalizePath(rule.params.trim().replace(/^\(|\)$/, ''))
-    console.log('cssPath', cssPath)
 
     if (!cssPath) {
       throw rule.error('need a resource file path parameter')

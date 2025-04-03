@@ -4,8 +4,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-      <div className="App-logo l1"></div>
-      <div className="App-logo l2"></div>
+        <div className="App-logo l1"></div>
+        <div className="App-logo l2"></div>
         <p>
           Edit
           {' '}

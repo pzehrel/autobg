@@ -17,7 +17,7 @@ export default defineConfig({
         babelrc: false,
         configFile: false,
       },
-    })
+    }),
   ],
 
   css: {
