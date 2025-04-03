@@ -33,6 +33,7 @@
     "@types/node": "catalog:",
     "bumpp": "catalog:",
     "eslint": "catalog:",
+    "postcss": "^8.5.3",
     "unbuild": "catalog:",
     "vitest": "catalog:"
   }
