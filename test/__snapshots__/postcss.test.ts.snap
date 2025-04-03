@@ -1,0 +1,29 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`postcss autobg plugin > should handle multiple @autobg rules 1`] = `
+"
+      .test1 {
+        background-image: url('./test1.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      .test2 {
+        background-image: url('./test2.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    "
+`;
+
+exports[`postcss autobg plugin > should transform @autobg rule correctly 1`] = `
+"
+      .test {
+        background-image: url('./test.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    "
+`;

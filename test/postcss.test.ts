@@ -21,7 +21,7 @@ describe('postcss autobg plugin', () => {
 
     await expect(
       postcss([postcssAutobg()]).process(input, { from: undefined }),
-    ).rejects.toThrow('@autobg 必须在选择器内部使用')
+    ).rejects.toThrow('must be used inside the selector')
   })
 
   it('should throw error when @autobg has no params', async () => {
@@ -33,7 +33,7 @@ describe('postcss autobg plugin', () => {
 
     await expect(
       postcss([postcssAutobg()]).process(input, { from: undefined }),
-    ).rejects.toThrow('@autobg 需要一个图片路径参数')
+    ).rejects.toThrow('need a resource file path parameter')
   })
 
   it('should handle multiple @autobg rules', async () => {
