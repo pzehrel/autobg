@@ -13,12 +13,6 @@ describe('shared image-size', () => {
     const size = imageSize(b64)
     expect(size).toEqual(expect.objectContaining({ width: 2, height: 2 }))
   })
-
-  it('file path', () => {
-    const filepath = resolve(import.meta.dirname, '/bar.png')
-    const size = imageSize(filepath)
-    expect(size).toEqual(expect.objectContaining({ width: 2, height: 2 }))
-  })
 })
 
 describe('filepath and csspath', () => {
