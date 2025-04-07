@@ -1,4 +1,4 @@
-import { join, resolve } from 'node:path'
+import { join } from 'node:path'
 import { imageSize, isAlias, isHttp, isRelative, normalizePath, resolveFilepath } from '@autobg/shared'
 import { describe, expect, it, vi } from 'vitest'
 import { configs, paths } from './util'
