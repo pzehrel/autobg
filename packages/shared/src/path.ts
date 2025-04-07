@@ -45,7 +45,7 @@ export function resolveFilepath(path: string, id: string, root: string, config: 
 
     // project root file exists
     if (existsSync(fillpath)) {
-      return fillpath
+      return fillpath.replace(/\\/g, '/')
     }
 
     // fillpath not exists, public file exists
