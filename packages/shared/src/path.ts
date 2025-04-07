@@ -29,14 +29,14 @@ export function resolveFilepath(path: string, id: string, root: string, config: 
     if (symbol) {
       path = path.replace(new RegExp(`^${symbol}`), '')
       path = join(root, value, path)
-      return path
+      // return path
     }
-    return path
+    return path.replace(/\\/g, '/')
   }
 
   // './xxx' -> '/src/xxx'
   if (isRelative(path)) {
-    return id ? join(dirname(id), path) : path
+    return (id ? join(dirname(id), path) : path).replace(/\\/g, '/')
   }
 
   // '/xxx' -> '/public/xxx'
@@ -51,13 +51,13 @@ export function resolveFilepath(path: string, id: string, root: string, config: 
     // fillpath not exists, public file exists
     if (publicPath) {
       const tmp = join(root, publicPath, path)
-      return existsSync(tmp) ? tmp : path
+      return (existsSync(tmp) ? tmp : path).replace(/\\/g, '/')
     }
-    return path
+    return path.replace(/\\/g, '/')
   }
 
   // http url
-  return path
+  return path.replace(/\\/g, '/')
 }
 
 /**
