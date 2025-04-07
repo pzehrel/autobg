@@ -45,10 +45,13 @@
     "stub": "unbuild --stub"
   },
   "peerDependencies": {
+    "image-size": "catalog:",
     "postcss": ">=8.0.0"
   },
   "dependencies": {
+  },
+  "devDependencies": {
     "image-size": "catalog:",
-    "postcss": "^8.5.3"
+    "postcss": "catalog:"
   }
 }

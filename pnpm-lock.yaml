@@ -39,6 +39,9 @@ catalogs:
     image-size:
       specifier: ^2.0.1
       version: 2.0.1
+    postcss:
+      specifier: ^8.5.3
+      version: 8.5.3
     unbuild:
       specifier: ^3.5.0
       version: 3.5.0
@@ -53,17 +56,38 @@ importers:
       '@antfu/eslint-config':
         specifier: 'catalog:'
         version: 4.11.0(@typescript-eslint/utils@8.28.0(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))(@vue/compiler-sfc@3.5.13)(eslint-plugin-react-hooks@5.2.0(eslint@9.23.0(jiti@2.4.2)))(eslint-plugin-react-refresh@0.4.19(eslint@9.23.0(jiti@2.4.2)))(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2)(vitest@3.0.9(@types/debug@4.1.12)(@types/node@22.13.13)(jiti@2.4.2)(jsdom@16.7.0)(terser@5.39.0)(yaml@2.7.0))
+      '@babel/core':
+        specifier: 'catalog:'
+        version: 7.26.10
+      '@babel/types':
+        specifier: 'catalog:'
+        version: 7.27.0
+      '@types/babel-plugin-macros':
+        specifier: 'catalog:'
+        version: 3.1.3
+      '@types/babel__core':
+        specifier: 'catalog:'
+        version: 7.20.5
       '@types/node':
         specifier: 'catalog:'
         version: 22.13.13
+      '@unocss/core':
+        specifier: 'catalog:'
+        version: 66.0.0
+      babel-plugin-macros:
+        specifier: 'catalog:'
+        version: 3.1.0
       bumpp:
         specifier: 'catalog:'
         version: 10.1.0
       eslint:
         specifier: 'catalog:'
         version: 9.23.0(jiti@2.4.2)
+      magic-string:
+        specifier: ^0.30.17
+        version: 0.30.17
       postcss:
-        specifier: ^8.5.3
+        specifier: 'catalog:'
         version: 8.5.3
       unbuild:
         specifier: 'catalog:'
@@ -307,43 +331,47 @@ importers:
         version: 66.0.0(@unocss/webpack@66.0.0(webpack@5.98.0))(postcss@8.5.3)(vite@6.2.3(@types/node@16.18.126)(jiti@2.4.2)(terser@5.39.0)(yaml@2.7.0))(vue@3.5.13(typescript@4.9.5))
 
   packages/babel-macro:
-    dependencies:
+    devDependencies:
       '@babel/core':
         specifier: 'catalog:'
         version: 7.26.10
       '@babel/types':
         specifier: 'catalog:'
         version: 7.27.0
-      babel-plugin-macros:
-        specifier: 'catalog:'
-        version: 3.1.0
-      image-size:
-        specifier: 'catalog:'
-        version: 2.0.1
-    devDependencies:
       '@types/babel-plugin-macros':
         specifier: 'catalog:'
         version: 3.1.3
       '@types/babel__core':
         specifier: 'catalog:'
         version: 7.20.5
+      babel-plugin-macros:
+        specifier: 'catalog:'
+        version: 3.1.0
+      image-size:
+        specifier: 'catalog:'
+        version: 2.0.1
 
   packages/postcss:
-    dependencies:
+    devDependencies:
       image-size:
         specifier: 'catalog:'
         version: 2.0.1
       postcss:
-        specifier: ^8.5.3
+        specifier: 'catalog:'
         version: 8.5.3
 
-  packages/shared: {}
+  packages/shared:
+    devDependencies:
+      image-size:
+        specifier: 'catalog:'
+        version: 2.0.1
 
   packages/unocss:
     dependencies:
       '@unocss/core':
         specifier: 'catalog:'
         version: 66.0.0
+    devDependencies:
       image-size:
         specifier: 'catalog:'
         version: 2.0.1

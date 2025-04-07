@@ -30,10 +30,17 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
+    "@babel/core": "catalog:",
+    "@babel/types": "catalog:",
+    "@types/babel-plugin-macros": "catalog:",
+    "@types/babel__core": "catalog:",
     "@types/node": "catalog:",
+    "@unocss/core": "catalog:",
+    "babel-plugin-macros": "catalog:",
     "bumpp": "catalog:",
     "eslint": "catalog:",
-    "postcss": "^8.5.3",
+    "magic-string": "^0.30.17",
+    "postcss": "catalog:",
     "unbuild": "catalog:",
     "vitest": "catalog:"
   }

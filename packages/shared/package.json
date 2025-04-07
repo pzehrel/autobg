@@ -1,5 +1,13 @@
 {
   "name": "@autobg/shared",
   "type": "module",
-  "private": true
+  "private": true,
+  "peerDependencies": {
+    "image-size": "catalog:"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "image-size": "catalog:"
+  }
 }

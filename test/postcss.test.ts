@@ -2,7 +2,7 @@ import postcss from 'postcss'
 import { describe, expect, it } from 'vitest'
 import { postcssAutobg } from '../packages/postcss/src'
 
-describe('postcss autobg plugin', () => {
+describe('postcss', () => {
   it('should transform @autobg rule correctly', async () => {
     const input = `
       .test {

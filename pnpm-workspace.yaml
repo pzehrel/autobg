@@ -13,5 +13,6 @@ catalog:
   bumpp: ^10.1.0
   eslint: ^9.23.0
   image-size: ^2.0.1
+  postcss: ^8.5.3
   unbuild: ^3.5.0
   vitest: ^3.0.9

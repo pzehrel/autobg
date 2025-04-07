@@ -32,6 +32,13 @@
     "styled-components"
   ],
   "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "require": "dist/index.cjs",
@@ -44,17 +51,19 @@
     "stub": "unbuild --stub"
   },
   "peerDependencies": {
-    "babel-plugin-macros": "catalog:",
-    "image-size": "catalog:"
-  },
-  "dependencies": {
     "@babel/core": "catalog:",
     "@babel/types": "catalog:",
     "babel-plugin-macros": "catalog:",
     "image-size": "catalog:"
   },
+  "dependencies": {
+  },
   "devDependencies": {
+    "@babel/core": "catalog:",
+    "@babel/types": "catalog:",
     "@types/babel-plugin-macros": "catalog:",
-    "@types/babel__core": "catalog:"
+    "@types/babel__core": "catalog:",
+    "babel-plugin-macros": "catalog:",
+    "image-size": "catalog:"
   }
 }
