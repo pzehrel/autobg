@@ -68,7 +68,7 @@ export default {
         autobg: defineAutobgMacro({
           unit: 'px',
         }),
-      }]
+      }],
       ['babel-plugin-styled-components', { displayName: true }],
     ],
   },
