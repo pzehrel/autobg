@@ -5,18 +5,20 @@ import { resolveConfig } from '@autobg/shared'
 import { createAutobgAtRule } from './rule'
 
 export interface PostcssAutobgPluginConfig extends Config {
+  root?: string
 }
 
 export const postcssAutobg: PluginCreator<PostcssAutobgPluginConfig> = (config) => {
+  const root = (config?.root || process.cwd()).replace(/\\/g, '/')
   return {
     postcssPlugin: 'autobg',
     // make sure to run before other plugins
     prepare: () => ({
-      Once: (root) => {
+      Once: (node) => {
         // @autobg(<path>)
         // @autobg: url(<path>)
-        root.walkAtRules(/^autobg:?/, (rule) => {
-          createAutobgAtRule(resolveConfig(config), process.cwd())(rule)
+        node.walkAtRules(/^autobg:?/, (rule) => {
+          createAutobgAtRule(resolveConfig(config), root)(rule)
         })
       },
     }),

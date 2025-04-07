@@ -2,7 +2,7 @@ import type { AliasConfig } from './config'
 import { isAbsolute } from 'node:path'
 
 export function isHttp(url: string) {
-  return /^https?:\/\//.test(url) || /^\/\//.test(url)
+  return /^(?:https?:)?\/\//.test(url)
 }
 
 export function isDataUrl(url: string) {

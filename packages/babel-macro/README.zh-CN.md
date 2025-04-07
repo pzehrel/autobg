@@ -49,18 +49,11 @@ export default defineConfig({
 
 ### Webpack 配置
 
-```js
-// .babel-plugin-macrosrc.js
-const { defineAutobgMacro } = require('@autobg/babel.macro')
-module.exports = {
-  autobg: defineAutobgMacro({ /** 配置项 */ }),
-}
-```
-
 ```ts
 // craco.config.ts
 import type { CracoConfig } from '@craco/types'
 import { resolve } from 'node:path'
+import { defineAutobgMacro } from '@autobg/babel.macro'
 
 export default {
   webpack: {
@@ -70,7 +63,12 @@ export default {
   },
   babel: {
     plugins: [
-      'babel-plugin-macros',
+      // 你也可以用 .babel-plugin-macrosrc.js
+      ['babel-plugin-macros', {
+        autobg: defineAutobgMacro({
+          unit: 'px',
+        }),
+      }]
       ['babel-plugin-styled-components', { displayName: true }],
     ],
   },

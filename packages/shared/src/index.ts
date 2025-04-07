@@ -1,2 +1,5 @@
 export * from './config'
+export * from './image-size'
+export * from './path'
+export * from './style'
 export * from './utils'

@@ -37,4 +37,6 @@ export const defaultAutobgMacroConfig = resolveConfig<RequiredAutobgMacroConfig>
   unitPrecision: 5,
 })
 
-export const defineAutobgMacro = (config: AutobgMacroConfig) => config
+export function defineAutobgMacro(config?: AutobgMacroConfig) {
+  return config
+}

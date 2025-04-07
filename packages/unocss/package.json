@@ -29,6 +29,13 @@
     "unocss-preset"
   ],
   "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "require": "dist/index.cjs",
@@ -44,7 +51,9 @@
     "image-size": "catalog:"
   },
   "dependencies": {
-    "@unocss/core": "catalog:",
+    "@unocss/core": "catalog:"
+  },
+  "devDependencies": {
     "image-size": "catalog:"
   }
 }
