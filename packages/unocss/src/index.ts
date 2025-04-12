@@ -12,6 +12,7 @@ export const presetAutobg = definePreset<AutobgUnocssConfig, object>((config) =>
   const opts = resolveConfig(config)
 
   const store = createStore()
+  store.updateRoot({ configRoot: config?.root })
 
   return {
     name,

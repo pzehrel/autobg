@@ -1,14 +1,18 @@
 import type { UnocssPluginContext } from '@unocss/core'
+import type { Store } from '../packages/unocss/src/store'
 import { createGenerator } from '@unocss/core'
 import MagicString from 'magic-string'
 import { describe, expect, it } from 'vitest'
 import { rules } from '../packages/unocss/src/rules'
+import { createStore } from '../packages/unocss/src/store'
 import { transformer as autobgTransformer } from '../packages/unocss/src/transformer'
 import { configs, paths } from './util'
 
 function createTransformer(platform: keyof typeof configs) {
   const { id, root, config } = configs[platform]
-  const transformer = autobgTransformer(config, { root })
+  const store = createStore()
+  store.updateRoot({ configRoot: root })
+  const transformer = autobgTransformer(config, store)
   async function transform(code: string) {
     const s = new MagicString(code)
     await transformer.transform(s, id, { root } as UnocssPluginContext)
@@ -37,7 +41,7 @@ describe('rule', async () => {
   for (const [platform, { config, root }] of Object.entries(configs)) {
     const transform = createTransformer(platform as keyof typeof configs)
     const generator = await createGenerator({
-      rules: rules(config, { root }),
+      rules: rules(config, { root } as Store),
     })
 
     for (const { type, exist, path, realpath } of paths) {

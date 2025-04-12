@@ -4,6 +4,8 @@ import { defineConfig, presetWind3 } from 'unocss'
 export default defineConfig({
   presets: [
     presetWind3(),
-    presetAutobg(),
+    presetAutobg({
+      root: import.meta.dirname,
+    }),
   ],
 })
