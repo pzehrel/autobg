@@ -1,4 +1,5 @@
 import type { UnocssPluginContext } from '@unocss/core'
+import type { Store } from '../packages/unocss/src/store'
 import { createGenerator } from '@unocss/core'
 import MagicString from 'magic-string'
 import { describe, expect, it } from 'vitest'
@@ -40,7 +41,7 @@ describe('rule', async () => {
   for (const [platform, { config, root }] of Object.entries(configs)) {
     const transform = createTransformer(platform as keyof typeof configs)
     const generator = await createGenerator({
-      rules: rules(config, { root }),
+      rules: rules(config, { root } as Store),
     })
 
     for (const { type, exist, path, realpath } of paths) {
