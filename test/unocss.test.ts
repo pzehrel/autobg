@@ -3,12 +3,15 @@ import { createGenerator } from '@unocss/core'
 import MagicString from 'magic-string'
 import { describe, expect, it } from 'vitest'
 import { rules } from '../packages/unocss/src/rules'
+import { createStore } from '../packages/unocss/src/store'
 import { transformer as autobgTransformer } from '../packages/unocss/src/transformer'
 import { configs, paths } from './util'
 
 function createTransformer(platform: keyof typeof configs) {
   const { id, root, config } = configs[platform]
-  const transformer = autobgTransformer(config, { root })
+  const store = createStore()
+  store.updateRoot({ configRoot: root })
+  const transformer = autobgTransformer(config, store)
   async function transform(code: string) {
     const s = new MagicString(code)
     await transformer.transform(s, id, { root } as UnocssPluginContext)
