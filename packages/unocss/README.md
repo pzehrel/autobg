@@ -70,6 +70,7 @@ export function Component() {
 | --- | --- | --- | --- |
 | publicPath | `string` | `'public'` | Path to the public directory, should match build tool configuration |
 | alias | `Record<string, string>` | `{ '@/': 'src/', '~': 'src/', '~@/': 'src/' }` | Path alias configuration, should match build tool configuration. Pass an empty object `{}` if not using path aliases |
+| root | `string` | `undefined` | The root directory path of the project. If not provided, the correct style class preview cannot be displayed in the VSCode unocss extension |
 
 ## License
 

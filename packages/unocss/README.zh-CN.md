@@ -68,6 +68,7 @@ export function Component() {
 | --- | --- | --- | --- |
 | publicPath | `string` | `'public'` | public 目录路径，需要与构建工具配置保持一致 |
 | alias | `Record<string, string>` | `{ '@/': 'src/', '~': 'src/', '~@/': 'src/' }` | 路径别名配置，需要与构建工具配置保持一致。不使用路径别名时，传入空对象 `{}` |
+| root | `string` | `undefined` | 项目根目录路径，如果不提供，则无法在 VSCode unocss 扩展中显示正确的样式类预览 |
 
 ## 许可证
 
