@@ -5,6 +5,9 @@ import { dirname, join } from 'node:path'
 import { isAlias, isRelative, normalizePath } from '@autobg/shared'
 import { name as PKG_NAME } from '../package.json'
 
+export const cssUrlRE = /url\(['"]?(.+?)(['"])?\)/g
+export const transformRE = /autobg-\[(.+?)\](?:-([wh])-?(\d+(?:\.\d+)?)|-(\d+(?:\.\d+)?%?))?/g
+
 export function transformer(config: RequiredAutobgUnocssConfig, store: Store): SourceCodeTransformer {
   return {
     name: `${PKG_NAME}:transformer`,
@@ -17,7 +20,7 @@ export function transformer(config: RequiredAutobgUnocssConfig, store: Store): S
 
       const annotations: HighlightAnnotation[] = []
 
-      for (const match of code.original.matchAll(/autobg-\[(.*)\]/g)) {
+      for (const match of code.original.matchAll(transformRE)) {
         const [pattern, rawPath] = match
 
         if (!pattern) {
@@ -36,15 +39,17 @@ export function transformer(config: RequiredAutobgUnocssConfig, store: Store): S
           cssPath = tmp.replace(store.root, '')
         }
 
+        const className = pattern.replace(cssUrlRE, (_, __, quote = '') => `url(${quote}${cssPath}${quote})`)
+
+        const length = pattern.length
         const start = match.index
-        const end = start + pattern.length
-        const className = `autobg-[url(${cssPath})]`
+        const end = start + length
         code.overwrite(start, end, className)
 
         annotations.push({
           offset: start,
-          length: pattern.length,
-          className,
+          length,
+          className: className.trim(),
         })
       }
 

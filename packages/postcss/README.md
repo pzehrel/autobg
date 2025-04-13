@@ -75,10 +75,23 @@ export default {
 
 ```css
 .foo {
-  @autobg: url('./assets/foo.png'); /* Recommended */
-  @autobg url('./assets/foo.png');  /* Recommended */
-  @autobg(./assets/foo.png);
-  @autobg ./assets/foo.png;
+  @autobg url('./assets/foo.png');
+
+  /* Scale to specific width while preserving aspect ratio */
+  @autobg url('./assets/foo.png') width(100px);
+  @autobg url('./assets/foo.png') w(100px);
+
+  /* Scale to specific height while preserving aspect ratio */
+  @autobg url('./assets/foo.png') height(100px);
+  @autobg url('./assets/foo.png') h(100px);
+
+  /* Apply uniform scaling (number) */
+  @autobg url('./assets/foo.png') scale(0.78);
+  @autobg url('./assets/foo.png') s(0.78);
+
+  /* Apply uniform scaling (percentage) */
+  @autobg url('./assets/foo.png') scale(78%);
+  @autobg url('./assets/foo.png') s(78%);
 }
 ```
 

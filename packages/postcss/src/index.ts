@@ -15,9 +15,8 @@ export const postcssAutobg: PluginCreator<PostcssAutobgPluginConfig> = (config) 
     // make sure to run before other plugins
     prepare: () => ({
       Once: (node) => {
-        // @autobg(<path>)
-        // @autobg: url(<path>)
-        node.walkAtRules(/^autobg:?/, (rule) => {
+        // @autobg url(<path>)
+        node.walkAtRules('autobg', (rule) => {
           createAutobgAtRule(resolveConfig(config), root)(rule)
         })
       },

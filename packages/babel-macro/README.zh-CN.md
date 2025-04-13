@@ -85,6 +85,24 @@ import { styled } from 'styled-components'
 
 const Foo = styled.div`
   ${autobg('@/assets/foo.png')}
+
+  /* 指定宽度等比缩放 */
+  ${autobg('@/assets/foo.png', 'w', 100)}
+  ${autobg('@/assets/foo.png', 'width', 100)}
+
+  /* 指定高度等比缩放 */
+  ${autobg('@/assets/foo.png', 'h', 100)}
+  ${autobg('@/assets/foo.png', 'height', 100)}
+
+  /* 使用数值进行统一缩放 */
+  ${autobg('@/assets/foo.png', 0.75)}
+  ${autobg('@/assets/foo.png', 's', 0.75)}
+  ${autobg('@/assets/foo.png', 'scale', 0.75)}
+
+  /* 使用百分比进行统一缩放 */
+  ${autobg('@/assets/foo.png', '75%')}
+  ${autobg('@/assets/foo.png', 's', '75%')}
+  ${autobg('@/assets/foo.png', 'scale', '75%')}
 `
 
 export function Component() {

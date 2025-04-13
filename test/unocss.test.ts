@@ -60,3 +60,26 @@ describe('rule', async () => {
     }
   }
 })
+
+describe('scaling', async () => {
+  const classnames = [
+    { name: 'autobg-[url(/foo.png)]', success: `width:2px;height:2px;` },
+    { name: 'autobg-[url(/foo.png)]-w200', success: `width:200px;height:200px;` },
+    { name: 'autobg-[url(/foo.png)]-h200', success: `width:200px;height:200px;` },
+    { name: 'autobg-[url(/foo.png)]-0.78', success: `width:1.56px;height:1.56px;` },
+    { name: 'autobg-[url(/foo.png)]-78%', success: `width:1.56px;height:1.56px;` },
+  ]
+
+  const { config, root } = configs.posix
+  const transform = createTransformer('posix')
+  const generator = await createGenerator({
+    rules: rules(config, { root } as Store),
+  })
+
+  for (const { name, success } of classnames) {
+    it(`"${name}" \t should be ${success}`, async () => {
+      const result = await generator.generate(await transform(name))
+      expect(result.css).toContain(success)
+    })
+  }
+})

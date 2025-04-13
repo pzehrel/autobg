@@ -57,12 +57,37 @@ export function Component() {
 
       {/* Using image from public directory */}
       <div className="autobg-['url(/foo.png)']" />
+
+      {/* Scale to specific width while preserving aspect ratio */}
+      <div className="autobg-['url(./assets/foo.png')]-w200" />
+      <div className="autobg-['url(./assets/foo.png')]-w-200" />
+
+      {/* Scale to specific height while preserving aspect ratio */}
+      <div className="autobg-['url(./assets/foo.png')]-h200" />
+      <div className="autobg-['url(./assets/foo.png')]-h-200" />
+
+      {/* Apply uniform scaling (number) */}
+      <div className="autobg-['url(./assets/foo.png')]-0.78" />
+
+      {/* Apply uniform scaling (percentage) */}
+      <div className="autobg-['url(./assets/foo.png')]-78%" />
     </>
   )
 }
 ```
 
 > 💡 Tip: When using path aliases or images from the `public` directory, ensure that `alias` and `publicPath` configurations match your build tool settings.
+
+### Scaling Options
+
+You can scale images while preserving the original aspect ratio using the following options:
+
+| Option | Format | Description |
+| --- | --- | --- |
+| Width scaling | `autobg-['url(...)']-w{number}` or `autobg-['url(...)']-w-{number}` | Scale to specific width. Height will be automatically calculated to maintain aspect ratio. |
+| Height scaling | `autobg-['url(...)']-h{number}` or `autobg-['url(...)']-h-{number}` | Scale to specific height. Width will be automatically calculated to maintain aspect ratio. |
+| Uniform scaling (number) | `autobg-['url(...)']-{number}` | Apply uniform scaling to both dimensions using a number value (e.g., 0.78). |
+| Uniform scaling (percentage) | `autobg-['url(...)']-{percentage}%` | Apply uniform scaling to both dimensions using a percentage value (e.g., 78%). |
 
 ## 📝 Configuration Options
 

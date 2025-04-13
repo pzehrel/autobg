@@ -44,3 +44,7 @@ export function overwrite({ css, babel, reference }: OverviewOptions) {
     reference.parentPath?.replaceWith(ast)
   }
 }
+
+export function toArray<T>(value: T | T[]): T[] {
+  return Array.isArray(value) ? value : [value]
+}

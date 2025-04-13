@@ -6,7 +6,7 @@ describe('postcss', () => {
   it('should transform @autobg rule correctly', async () => {
     const input = `
       .test {
-        @autobg "./test.jpg";
+        @autobg url("./test.jpg");
       }
     `
     const result = await postcss([postcssAutobg()]).process(input, { from: undefined })
@@ -16,7 +16,7 @@ describe('postcss', () => {
 
   it('should throw error when @autobg is used outside selector', async () => {
     const input = `
-      @autobg "./test.jpg";
+      @autobg url("./test.jpg");
     `
 
     await expect(
@@ -39,10 +39,10 @@ describe('postcss', () => {
   it('should handle multiple @autobg rules', async () => {
     const input = `
       .test1 {
-        @autobg "./test1.jpg";
+        @autobg url("./test1.jpg");
       }
       .test2 {
-        @autobg "./test2.jpg";
+        @autobg url("./test2.jpg");
       }
     `
     const result = await postcss([postcssAutobg()]).process(input, { from: undefined })
