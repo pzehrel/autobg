@@ -55,12 +55,37 @@ export function Component() {
 
       {/* 使用 public 目录下的图片 */}
       <div className="autobg-['url(/foo.png)']" />
+
+      {/* 指定宽度等比缩放 */}
+      <div className="autobg-['url(./assets/foo.png')]-w200" />
+      <div className="autobg-['url(./assets/foo.png')]-w-200" />
+
+      {/* 指定高度等比缩放 */}
+      <div className="autobg-['url(./assets/foo.png')]-h200" />
+      <div className="autobg-['url(./assets/foo.png')]-h-200" />
+
+      {/* 使用数值进行统一缩放 */}
+      <div className="autobg-['url(./assets/foo.png')]-0.78" />
+
+      {/* 使用百分比进行统一缩放 */}
+      <div className="autobg-['url(./assets/foo.png')]-78%" />
     </>
   )
 }
 ```
 
 > 💡 提示：使用路径别名或 `public` 目录下的图片时，请确保 `alias` 和 `publicPath` 配置与构建工具配置保持一致。
+
+### 缩放选项
+
+您可以使用以下选项来保持原始宽高比（等比）缩放图片：
+
+| 选项 | 格式 | 说明 |
+| --- | --- | --- |
+| 宽度缩放 | `autobg-['url(...)']-w{数值}` 或 `autobg-['url(...)']-w-{数值}` | 指定宽度，将自动计算高度以保持原始宽高比 |
+| 高度缩放 | `autobg-['url(...)']-h{数值}` 或 `autobg-['url(...)']-h-{数值}` | 指定高度，将自动计算宽度以保持原始宽高比 |
+| 统一缩放（数值） | `autobg-['url(...)']-{数值}` | 使用数值（如 0.78）统一缩放两个维度 |
+| 统一缩放（百分比） | `autobg-['url(...)']-{百分比}%` | 使用百分比值（如 78%）统一缩放两个维度 |
 
 ## 📝 配置项说明
 

@@ -10,7 +10,8 @@ export function imageSize(filepath: string | Buffer): { width: number, height: n
     if (typeof filepath === 'string') {
       filepath = isDataUrl(filepath) ? base64ToBuffer(filepath) : readFileSync(filepath)
     }
-    return _imageSize(filepath)
+    const { width, height } = _imageSize(filepath)
+    return { width, height }
   }
   catch {
     return null
