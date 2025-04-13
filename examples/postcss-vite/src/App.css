@@ -1,12 +1,13 @@
 .vite {
-  @autobg('/vite.png');
+  @autobg url('/vite.png');
+  @autobg url('/vite.png') w(100);
 }
 
 .r1 {
-  @autobg: url('@/assets/react.png');
+  @autobg url('@/assets/react.png') s(0.5);
 }
 .r2 {
-  @autobg('./assets/react.png');
+  @autobg url('./assets/react.png') s(50%);
 }
 
 

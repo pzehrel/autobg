@@ -75,10 +75,23 @@ export default {
 
 ```css
 .foo {
-  @autobg: url('./assets/foo.png'); /* 推荐写法 */
-  @autobg url('./assets/foo.png');  /* 推荐写法 */
-  @autobg(./assets/foo.png);
-  @autobg ./assets/foo.png;
+  @autobg url('./assets/foo.png');
+
+  /* 缩放到特定宽度，同时保留长宽比 */
+  @autobg url('./assets/foo.png') width(100px);
+  @autobg url('./assets/foo.png') w(100px);
+
+  /* 缩放到特定高度，同时保留长宽比 */
+  @autobg url('./assets/foo.png') height(100px);
+  @autobg url('./assets/foo.png') h(100px);
+
+  /* 应用均匀缩放（数字） */
+  @autobg url('./assets/foo.png') scale(0.78);
+  @autobg url('./assets/foo.png') s(0.78);
+
+  /* 应用均匀缩放（百分比） */
+  @autobg url('./assets/foo.png') scale(78%);
+  @autobg url('./assets/foo.png') s(78%);
 }
 ```
 
