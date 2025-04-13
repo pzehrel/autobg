@@ -7,6 +7,11 @@ const ruleRE = /^url\(["']?(.+?)["']?\)(?:\s+([wh]|width|height)\((.+?)\)|\s+(s|
 export function createAutobgAtRule(config: RequiredConfig, root: string) {
   return (rule: AtRule) => {
     const params = rule.params.trim()
+
+    if (!params) {
+      throw rule.error('need a resource file path parameter')
+    }
+
     const match = params.match(ruleRE)
     if (!match) {
       throw rule.error('invalid params')
