@@ -25,6 +25,6 @@ export interface Size {
  * ```
  */
 export interface UnitSize {
-  width: `${number}${string}`
-  height: `${number}${string}`
+  width: `${number}${string}` | (string & {})
+  height: `${number}${string}` | (string & {})
 }

@@ -3,12 +3,12 @@ import styled from 'styled-components'
 import './App.css'
 
 const ViteLogo = styled.div`
-  ${autobg('/vite.png')};
+  ${autobg('/vite.png', 0.75)};
   display: inline-block;
 `
 
 const ReactLogo = styled.div`
-  ${autobg('@/assets/react.png')};
+  ${autobg('@/assets/react.png', 'h', 30)};
   display: inline-block;
 `
 const ReactLogo2 = styled.div`

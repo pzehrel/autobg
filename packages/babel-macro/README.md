@@ -87,6 +87,24 @@ import { styled } from 'styled-components'
 
 const Foo = styled.div`
   ${autobg('@/assets/foo.png')}
+
+  /* Scale to specific width while preserving aspect ratio */
+  ${autobg('@/assets/foo.png', 'w', 100)}
+  ${autobg('@/assets/foo.png', 'width', 100)}
+
+  /* Scale to specific height while preserving aspect ratio */
+  ${autobg('@/assets/foo.png', 'h', 100)}
+  ${autobg('@/assets/foo.png', 'height', 100)}
+
+  /* Use numeric uniform scaling */
+  ${autobg('@/assets/foo.png', 0.75)}
+  ${autobg('@/assets/foo.png', 's', 0.75)}
+  ${autobg('@/assets/foo.png', 'scale', 0.75)}
+
+  /* Use percentage uniform scaling */
+  ${autobg('@/assets/foo.png', '75%')}
+  ${autobg('@/assets/foo.png', 's', '75%')}
+  ${autobg('@/assets/foo.png', 'scale', '75%')}
 `
 
 export function Component() {

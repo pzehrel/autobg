@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import './App.css'
 
 const Logo = styled.div`
-  ${autobg('@/assets/logo.png')}
+  ${autobg('@/assets/logo.png', 0.75)}
   display: inline-block;
 `
 // webpack Error: You attempted to import /logo.png which falls outside of the project src/ directory. Relative imports outside of src/ are not supported.
