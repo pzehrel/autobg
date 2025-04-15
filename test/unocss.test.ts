@@ -68,6 +68,13 @@ describe('scaling', async () => {
     { name: 'autobg-[url(/foo.png)]-h200', success: `width:200px;height:200px;` },
     { name: 'autobg-[url(/foo.png)]-0.78', success: `width:1.56px;height:1.56px;` },
     { name: 'autobg-[url(/foo.png)]-78%', success: `width:1.56px;height:1.56px;` },
+
+    { name: 'autobg-asp-[url(/foo.png)]', success: `aspect-ratio:2/2;width:2px;` },
+    { name: 'autobg-asp-[url(/foo.png)]-w', success: `aspect-ratio:2/2;width:2px;` },
+    { name: 'autobg-asp-[url(/foo.png)]-w200', success: `aspect-ratio:2/2;width:200px;` },
+    { name: 'autobg-asp-[url(/foo.png)]-h200', success: `aspect-ratio:2/2;height:200px;` },
+    { name: 'autobg-asp-[url(/foo.png)]-0.78', success: `aspect-ratio:2/2;width:1.56px;` },
+    { name: 'autobg-asp-[url(/foo.png)]-78%', success: `aspect-ratio:2/2;width:1.56px;` },
   ]
 
   const { config, root } = configs.posix

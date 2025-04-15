@@ -2,6 +2,9 @@ import type { NumberString, Percentage, Size, UnitSize } from './type'
 import { imageSize } from './image-size'
 import { isHttp } from './utils'
 
+/**
+ * @deprecated
+ */
 export interface StyleOptions {
   /**
    * Target width. If only this is provided, height will be automatically calculated
@@ -29,6 +32,8 @@ export interface StyleOptions {
  * @param csspath - The path to the CSS file path or url.
  * @param filepath - The path to the image file path.
  * @param options - The options.
+ *
+ * @deprecated
  */
 export function createStyle(csspath: string, filepath?: string, options?: StyleOptions) {
   const { transformSize = defaultTransformSize, sw, sh, ss } = options ?? {}

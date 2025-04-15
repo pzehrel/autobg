@@ -1,29 +1,25 @@
 import type { RequiredConfig } from '@autobg/shared'
 import type { Rule } from '@unocss/core'
 import type { Store } from './store'
-import { createStyle, normalizePath, resolveCsspath, resolveFilepath } from '@autobg/shared'
-
-// base: autobg-[url(./assets/vite.png)]
-// width: autobg-[url(./assets/vite.png)]-w122
-// height: autobg-[url(./assets/vite.png)]-h122
-// percent: autobg-[url(./assets/vite.png)]-122%
-export const ruleRE = /^autobg-\[(.+?)\](?:-([wh])-?(\d+(?:\.\d+)?)|-(\d+(?:\.\d+)?%?))?$/
+import { createCSS, normalizePath, resolveCsspath, resolveFilepath } from '@autobg/shared'
 
 export function rules(options: RequiredConfig, store: Store): Rule<object>[] {
+  function handle(rawpath: string, side: string = 's', value?: string | number, aspect?: boolean) {
+    const path = normalizePath(rawpath)
+    const filepath = resolveFilepath(path, '', store.root, options)
+    const csspath = resolveCsspath(filepath, store.root, options)
+    return createCSS(csspath, filepath, { side, value, aspect })
+  }
+
   return [
-    [ruleRE, ([, rawPath, wh, value, percentValue]) => {
-      const path = normalizePath(rawPath)
+    [/^autobg-\[(.+?)\](?:-((?:[whs]|width|height|scale)-?)?(\d+(?:\.\d+)?%?))?$/, (match) => {
+      const [, rawpath, side, value] = match
+      return handle(rawpath, side, value)
+    }],
 
-      // The transformer will handle relative paths, so there is no need to pass the id.
-      const filepath = resolveFilepath(path, '', store.root, options)
-      const csspath = resolveCsspath(filepath, store.root, options)
-
-      const style = createStyle(csspath, filepath, {
-        sw: wh === 'w' ? value : undefined,
-        sh: wh === 'h' ? value : undefined,
-        ss: percentValue,
-      })
-      return style
+    [/^autobg-(?:asp|aspect)-\[(.+?)\](?:-([whs]|width|height|scale)?(-?\d+(?:\.\d+)?%?)?)?$/, (match) => {
+      const [, rawpath, side, value] = match
+      return handle(rawpath, side, value, true)
     }],
   ]
 }

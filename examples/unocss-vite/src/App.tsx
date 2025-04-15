@@ -5,10 +5,10 @@ function App() {
     <>
       <div>
         <a href="https://vite.dev" target="_blank">
-          <div className="logo autobg-[url('/vite.png')] inline-block"></div>
+          <div className="logo autobg-asp-[url('/vite.png')]-0.7 inline-block"></div>
         </a>
         <a href="https://react.dev" target="_blank">
-          <div className="logo autobg-[url(./assets/react.png)] inline-block"></div>
+          <div className="logo autobg-asp-[url(./assets/react.png)]-h inline-block"></div>
         </a>
         <a href="https://react.dev" target="_blank">
           <div className="logo autobg-[url('@/assets/vite.png')] inline-block"></div>
