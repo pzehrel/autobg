@@ -73,7 +73,7 @@ describe('babel-macro utils', () => {
       'height': '100px',
     }
 
-    overwrite({ css, babel: mockBabel, reference: mockReference })
+    overwrite({ css, babel: mockBabel, ref: mockReference.parentPath! })
 
     // 验证 replaceWith 被调用
     expect(mockReplaceWith).toHaveBeenCalled()

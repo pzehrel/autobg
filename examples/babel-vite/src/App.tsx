@@ -8,7 +8,7 @@ const ViteLogo = styled.div`
 `
 
 const ReactLogo = styled.div`
-  ${autobg('@/assets/react.png', 'h', 30)};
+  ${autobg.aspect('@/assets/react.png', 'h', 30)};
   display: inline-block;
 `
 const ReactLogo2 = styled.div`

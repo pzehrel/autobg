@@ -23,6 +23,8 @@ export interface Size {
  *   height: '100px',
  * }
  * ```
+ *
+ * @deprecated
  */
 export interface UnitSize {
   width: `${number}${string}` | (string & {})

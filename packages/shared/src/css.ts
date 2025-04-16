@@ -1,4 +1,4 @@
-import type { NumberString, Percentage, Size, UnitSize } from './type'
+import type { NumberString, Percentage, Size } from './type'
 import { imageSize } from './image-size'
 import { isHttp } from './utils'
 
@@ -35,7 +35,7 @@ export interface CreateCssOptions {
   value?: NumberString | Percentage
 
   /** Function to transform size units */
-  transformSize?: (size: Size) => UnitSize
+  transformSize?: (value: number) => string
 }
 
 /**
@@ -69,7 +69,9 @@ export function createCSS(csspath: string, filepath?: string, options?: CreateCs
   const { transformSize = defaultTransformSize } = options ?? {}
 
   const scaledSize = { width: size.width * rate, height: size.height * rate }
-  const { width, height } = transformSize(scaledSize)
+  // const { width, height } = transformSize(scaledSize)
+  const width = transformSize(scaledSize.width)
+  const height = transformSize(scaledSize.height)
 
   // When not using `aspect-ratio`, we need to provide both width and height to maintain aspect ratio
   if (!options?.aspect) {
@@ -156,9 +158,6 @@ function parseRate(size: Size, side: ExactSide, value?: NumberString | Percentag
   return 1
 }
 
-function defaultTransformSize(size: Size): UnitSize {
-  return {
-    width: `${size.width}px`,
-    height: `${size.height}px`,
-  }
+function defaultTransformSize(value: number): string {
+  return `${value}px`
 }
