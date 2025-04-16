@@ -2,9 +2,7 @@
 
 这是一个CSS工具库，它能够根据提供的本地图片路径，自动为元素生成`background-image`、`width`和`height`的样式代码。
 
-💡 灵感来源于[littlee/autobg.macro](https://github.com/littlee/autobg.macro)项目。
-
-✨ 现已支持多种使用方式。
+💡 迭代自[littlee/autobg.macro](https://github.com/littlee/autobg.macro)
 
 ## 🚀 功能特点
 

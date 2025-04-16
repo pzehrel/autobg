@@ -4,9 +4,7 @@
 
 This is a CSS utility library that automatically generates `background-image`, `width`, and `height` styles for elements based on local image paths.
 
-💡 Inspired by the [littlee/autobg.macro](https://github.com/littlee/autobg.macro) project.
-
-✨ Now supports multiple usage methods.
+💡 Iterated from the [littlee/autobg.macro](https://github.com/littlee/autobg.macro)
 
 ## 🚀 Features
 
