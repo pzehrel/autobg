@@ -28,4 +28,3 @@ export function isAlias(path: string, aliasConfig: AliasConfig) {
 export function normalizePath(path: string) {
   return path.replace(/^\[?(?:url\(?)?\(?['"]?(.+?)['"]?\)?\]?$/, '$1')
 }
-

@@ -46,11 +46,10 @@ function createPostcss(params: string, id: string, selector?: string, aspect?: b
 //         }
 //       })
 //     }
-    
-//   }
-  
-// })
 
+//   }
+
+// })
 
 describe('scaling', async () => {
   const classnames = [
@@ -68,10 +67,8 @@ describe('scaling', async () => {
     { name: 'url(/foo.png) scale(78%)', success: [`aspect-ratio: 2/2;`, `width: 1.56px;`] },
   ]
 
-
   for (const { name, success } of classnames) {
     it(`"${name}" \t should be ${success}`, async () => {
-
       const { config, root: cwd, id } = configs.posix
       const processor = createProcessor(config, cwd, true)
       const { root, atRule } = createPostcss(name, id, '.test', true)
