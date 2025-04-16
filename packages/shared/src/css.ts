@@ -5,7 +5,7 @@ import { isHttp } from './utils'
 type ExactSide = 'w' | 'h' | 's'
 export type Side = ExactSide | 'width' | 'height' | 'scale'
 
-interface CreateCssOptions {
+export interface CreateCssOptions {
   /**
    * Determines which dimension to use for calculating the scaling ratio
    *
