@@ -1,7 +1,6 @@
 # 🎨 autobg
 
-[![npm version](https://img.shields.io/npm/v/@autobg/postcss.svg?style=flat)](https://www.npmjs.com/package/@autobg/postcss)
-[![npm downloads](https://img.shields.io/npm/dm/@autobg/postcss.svg?style=flat)](https://www.npmjs.com/package/@autobg/postcss)
+[![npm version](https://img.shields.io/npm/v/@autobg/unocss.svg?style=flat)](https://www.npmjs.com/package/@autobg/unocss)
 
 这是一个CSS工具库，它能够根据提供的本地图片路径，自动为元素生成`background-image`、`width`和`height`的样式代码。
 
@@ -22,9 +21,9 @@
 
 详细使用说明请查看对应文档：
 
-- 📦 [@autobg/babel.macro](./packages/babel-macro/README.zh-CN.md)
-- 🎨 [@autobg/unocss](./packages/unocss/README.zh-CN.md)
-- 🔧 [@autobg/postcss](./packages/postcss/README.zh-CN.md)
+- 🎨 [@autobg/unocss](./packages/unocss/README.zh-CN.md) [![npm downloads](https://img.shields.io/npm/dm/@autobg/unocss.svg?style=flat)](https://www.npmjs.com/package/@autobg/unocss)
+- 📦 [@autobg/babel.macro](./packages/babel-macro/README.zh-CN.md) [![npm downloads](https://img.shields.io/npm/dm/@autobg/babel.macro.svg?style=flat)](https://www.npmjs.com/package/@autobg/babel.macro)
+- 🔧 [@autobg/postcss](./packages/postcss/README.zh-CN.md) [![npm downloads](https://img.shields.io/npm/dm/@autobg/postcss.svg?style=flat)](https://www.npmjs.com/package/@autobg/postcss)
 
 ## 📄 许可证
 

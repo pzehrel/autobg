@@ -2,8 +2,7 @@
 
 [中文](./README.zh-CN.md)
 
-[![npm version](https://img.shields.io/npm/v/@autobg/postcss.svg?style=flat)](https://www.npmjs.com/package/@autobg/postcss)
-[![npm downloads](https://img.shields.io/npm/dm/@autobg/postcss.svg?style=flat)](https://www.npmjs.com/package/@autobg/postcss)
+[![npm version](https://img.shields.io/npm/v/@autobg/unocss.svg?style=flat)](https://www.npmjs.com/package/@autobg/unocss)
 
 This is a CSS utility library that automatically generates `background-image`, `width`, and `height` styles for elements based on local image paths.
 
@@ -24,9 +23,9 @@ This is a CSS utility library that automatically generates `background-image`, `
 
 For detailed usage instructions, please check the corresponding documentation:
 
-- 📦 [@autobg/babel.macro](./packages/babel-macro/README.md)
-- 🎨 [@autobg/unocss](./packages/unocss/README.md)
-- 🔧 [@autobg/postcss](./packages/postcss/README.md)
+- 🎨 [@autobg/unocss](./packages/unocss/README.zh-CN.md) [![npm downloads](https://img.shields.io/npm/dm/@autobg/unocss.svg?style=flat)](https://www.npmjs.com/package/@autobg/unocss)
+- 📦 [@autobg/babel.macro](./packages/babel-macro/README.zh-CN.md) [![npm downloads](https://img.shields.io/npm/dm/@autobg/babel.macro.svg?style=flat)](https://www.npmjs.com/package/@autobg/babel.macro)
+- 🔧 [@autobg/postcss](./packages/postcss/README.zh-CN.md) [![npm downloads](https://img.shields.io/npm/dm/@autobg/postcss.svg?style=flat)](https://www.npmjs.com/package/@autobg/postcss)
 
 ## 📄 License
 
