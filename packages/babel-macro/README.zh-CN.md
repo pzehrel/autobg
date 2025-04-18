@@ -1,13 +1,18 @@
-# @autobg/babel.macro
+# 🎨 @autobg/babel.macro
 
-一个基于 [babel-plugin-macros](https://github.com/kentcdodds/babel-plugin-macros) 的智能宏工具，专为 [styled-components](https://styled-components.com/) 设计。
+[![npm version](https://img.shields.io/npm/v/@autobg/babel.macro.svg?style=flat)](https://www.npmjs.com/package/@autobg/babel.macro)
+[![npm downloads](https://img.shields.io/npm/dm/@autobg/babel.macro.svg?style=flat)](https://www.npmjs.com/package/@autobg/babel.macro)
 
-通过简单的本地图片路径，即可自动获取图片尺寸并设置相应的 CSS 样式。
+基于 [babel-plugin-macros](https://github.com/kentcdodds/babel-plugin-macros) 的宏工具，专为 [styled-components](https://styled-components.com/) 设计。通过简单的本地图片路径，自动获取图片尺寸并设置相应的 CSS 样式。
 
-## ✨ 特性
+## ✨ 核心特性
 
-- 🚀 支持 Vite 和 Webpack
-- 🔄 自动处理图片尺寸
+- 🚀 支持 Vite 和 Webpack 构建工具
+- 🔄 识别图片尺寸并自动应用
+- 📍 灵活支持相对路径和路径别名
+- 📐 支持多种灵活的缩放模式
+- 🎨 提供常规和 aspect-ratio 两种模式
+- 📏 支持单位转换（px、rem、vw）
 
 ## 📦 安装
 
@@ -75,54 +80,177 @@ export default {
 } satisfies CracoConfig
 ```
 
-> 注意：以上 Webpack 配置示例使用 craco，但同样适用于其他 Webpack 配置，只要确保正确配置了 babel 插件即可。
+> **注意**：以上 Webpack 配置示例使用 craco，但同样适用于其他 Webpack 配置，只要确保正确配置了 babel 插件即可。
 
-## 🎯 使用示例
+## 🎯 使用指南
+
+### 基础用法
 
 ```tsx
 import autobg from '@autobg/babel.macro'
 import { styled } from 'styled-components'
 
 const Foo = styled.div`
+  /* 基本用法 - 自动设置背景图和尺寸 */
   ${autobg('@/assets/foo.png')}
+`
+```
 
-  /* 指定宽度等比缩放 */
+### 等比缩放
+
+#### 固定宽度或高度
+
+```tsx
+import autobg from '@autobg/babel.macro'
+import { styled } from 'styled-components'
+
+const Foo = styled.div`
+  /* 固定宽度，高度按比例自动计算 */
   ${autobg('@/assets/foo.png', 'w', 100)}
   ${autobg('@/assets/foo.png', 'width', 100)}
 
-  /* 指定高度等比缩放 */
+  /* 固定高度，宽度按比例自动计算 */
   ${autobg('@/assets/foo.png', 'h', 100)}
   ${autobg('@/assets/foo.png', 'height', 100)}
+`
+```
 
-  /* 使用数值进行统一缩放 */
+#### 整体缩放比例
+
+```tsx
+import autobg from '@autobg/babel.macro'
+import { styled } from 'styled-components'
+
+const Foo = styled.div`
+  /* 数值形式（0.75倍缩放） */
   ${autobg('@/assets/foo.png', 0.75)}
   ${autobg('@/assets/foo.png', 's', 0.75)}
   ${autobg('@/assets/foo.png', 'scale', 0.75)}
 
-  /* 使用百分比进行统一缩放 */
+  /* 百分比形式（缩放至75%） */
   ${autobg('@/assets/foo.png', '75%')}
   ${autobg('@/assets/foo.png', 's', '75%')}
   ${autobg('@/assets/foo.png', 'scale', '75%')}
 `
+```
+
+### 使用 aspect-ratio 属性
+
+利用现代 CSS 的 [aspect-ratio](https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio) 属性保持元素宽高比，实现更灵活的布局控制。
+
+特别适用于需要响应式缩放的场景，当父元素尺寸动态变化时尤为有效：
+
+```tsx
+import autobg from '@autobg/babel.macro'
+import { styled } from 'styled-components'
+
+// 父元素高度可能会动态变化
+const Parent = styled.div`
+  height: 200px;
+`
+
+// 子元素会自动保持图片原始宽高比并适应父元素
+const Child = styled.div`
+  ${autobg.aspect('@/assets/foo.png', 'height')}
+`
 
 export function Component() {
-  return <Foo />
+  return (
+    <Parent>
+      <Child />
+    </Parent>
+  )
 }
 ```
 
-> 提示：使用路径别名或 `public` 目录下的图片时，需要确保 `alias` 和 `publicPath` 配置与 Webpack 配置保持一致。
+当父元素的高度发生变化时，子元素会自动保持原始图片的宽高比例，实现等比例缩放。
+
+#### 基础用法
+
+不指定宽高时，仅生成背景和宽高比：
+
+```tsx
+import autobg from '@autobg/babel.macro'
+import { styled } from 'styled-components'
+
+const Foo = styled.div`
+  ${autobg.aspect('@/assets/foo.png')}
+  /* 需要手动设置宽度或高度 */
+  width: 100%;
+`
+```
+
+#### 📐 指定生成宽度或高度
+
+自动生成一个维度的值（默认100%）：
+
+```tsx
+import autobg from '@autobg/babel.macro'
+import { styled } from 'styled-components'
+
+// 生成高度，保持原图宽高比
+const HeightAuto = styled.div`
+  ${autobg.aspect('@/assets/foo.png', 'height')}
+  ${autobg.aspect('@/assets/foo.png', 'h')}
+`
+
+// 生成宽度，保持原图宽高比
+const WidthAuto = styled.div`
+  ${autobg.aspect('@/assets/foo.png', 'width')}
+  ${autobg.aspect('@/assets/foo.png', 'w')}
+`
+```
+
+#### 自定义比例
+
+设置宽高：
+
+```tsx
+import autobg from '@autobg/babel.macro'
+import { styled } from 'styled-components'
+
+// 设置高度值，保持原图宽高比
+const HeightCustom = styled.div`
+  ${autobg.aspect('@/assets/foo.png', 'height', '78%')}
+  ${autobg.aspect('@/assets/foo.png', 'h', '78px')}
+  ${autobg.aspect('@/assets/foo.png', 'h', '78rem')}
+`
+
+// 设置宽度值，保持原图宽高比
+const WidthCustom = styled.div`
+  ${autobg.aspect('@/assets/foo.png', 'width', '78%')}
+  ${autobg.aspect('@/assets/foo.png', 'w', '78px')}
+  ${autobg.aspect('@/assets/foo.png', 'w', '78rem')}
+`
+```
+
+> 💡 **提示**：在 aspect 模式下，值会直接设置到 width 或 height 属性上，不会经过转换。
+
+### 📋 缩放选项总览
+
+| 选项                | 语法                                | 功能描述                                             |
+| ------------------- | ----------------------------------- | ---------------------------------------------------- |
+| 宽度缩放            | `autobg(path, 'width', 值)`         | 固定宽度，高度按比例自动计算（值表示像素等具体单位） |
+| 高度缩放            | `autobg(path, 'height', 值)`        | 固定高度，宽度按比例自动计算（值表示像素等具体单位） |
+| 整体缩放            | `autobg(path, 值或百分比)`          | 按比例统一缩放两个维度（数值或百分比表示缩放比例）   |
+| 宽高比模式-宽度     | `autobg.aspect(path, 'width')`      | 生成宽度并设置 aspect-ratio，保持原图宽高比          |
+| 宽高比模式-高度     | `autobg.aspect(path, 'height')`     | 生成高度并设置 aspect-ratio，保持原图宽高比          |
+| 宽高比模式-自定义宽 | `autobg.aspect(path, 'width', 值)`  | 设置宽度为指定值并保持原图宽高比                     |
+| 宽高比模式-自定义高 | `autobg.aspect(path, 'height', 值)` | 设置高度为指定值并保持原图宽高比                     |
+
+> 💡 **提示**：使用路径别名或 `public` 目录下的图片时，需要确保 `alias` 和 `publicPath` 配置与构建工具配置保持一致。
 
 ## 📝 配置项说明
 
-| 配置项 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| publicPath | `string` | `'public'` | public 目录路径，需要与构建工具配置保持一致 |
-| alias | `Record<string, string>` | `{ '@/': 'src/', '~': 'src/', '~@/': 'src/' }` | 路径别名配置，需要与构建工具配置保持一致。不使用路径别名时，传入空对象 `{}` |
-| unit | `'px'` \| `'rem'` \| `'vw'` | `'px'` | CSS 单位类型 |
-| rootValue | `number` | `100` | 根元素字体大小（仅在 `unit` 为 `'rem'` 时生效） |
-| designWidth | `number` | `750` | 设计稿宽度（仅在 `unit` 为 `'vw'` 时生效） |
-| unitPrecision | `number` | `5` | `px` 转换为 `rem` 或 `vw` 时的精度（小数位数） |
+| 配置项        | 类型                        | 默认值                                         | 说明                                                                          |
+| ------------- | --------------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------- |
+| publicPath    | `string`                    | `'public'`                                     | 静态资源目录路径，需要与构建工具配置保持一致                                  |
+| alias         | `Record<string, string>`    | `{ '@/': 'src/', '~': 'src/', '~@/': 'src/' }` | 路径别名配置，需要与构建工具配置保持一致<br>不使用路径别名时，传入空对象 `{}` |
+| unit          | `'px'` \| `'rem'` \| `'vw'` | `'px'`                                         | CSS 单位类型                                                                  |
+| rootValue     | `number`                    | `100`                                          | 根元素字体大小（仅在 `unit` 为 `'rem'` 时生效）                               |
+| designWidth   | `number`                    | `750`                                          | 设计稿宽度（仅在 `unit` 为 `'vw'` 时生效）                                    |
+| unitPrecision | `number`                    | `5`                                            | `px` 转换为 `rem` 或 `vw` 时的精度（小数位数）                                |
 
-## 许可证
+## 📄 许可证
 
 MIT

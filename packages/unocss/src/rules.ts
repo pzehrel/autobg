@@ -1,29 +1,45 @@
-import type { RequiredConfig } from '@autobg/shared'
-import type { Rule } from '@unocss/core'
+import type { DynamicMatcher, Rule } from '@unocss/core'
+import type { RequiredAutobgUnocssConfig } from './config'
 import type { Store } from './store'
-import { createStyle, normalizePath, resolveCsspath, resolveFilepath } from '@autobg/shared'
+import { createCSS, resolveCsspath, resolveFilepath } from '@autobg/shared'
 
-// base: autobg-[url(./assets/vite.png)]
-// width: autobg-[url(./assets/vite.png)]-w122
-// height: autobg-[url(./assets/vite.png)]-h122
-// percent: autobg-[url(./assets/vite.png)]-122%
-export const ruleRE = /^autobg-\[(.+?)\](?:-([wh])-?(\d+(?:\.\d+)?)|-(\d+(?:\.\d+)?%?))?$/
+export type Processor = (path: string, side?: string, value?: string | number, aspect?: boolean) => ReturnType<DynamicMatcher<object>>
 
-export function rules(options: RequiredConfig, store: Store): Rule<object>[] {
+export function createRuleRegExps(processor?: Processor) {
   return [
-    [ruleRE, ([, rawPath, wh, value, percentValue]) => {
-      const path = normalizePath(rawPath)
-
-      // The transformer will handle relative paths, so there is no need to pass the id.
-      const filepath = resolveFilepath(path, '', store.root, options)
-      const csspath = resolveCsspath(filepath, store.root, options)
-
-      const style = createStyle(csspath, filepath, {
-        sw: wh === 'w' ? value : undefined,
-        sh: wh === 'h' ? value : undefined,
-        ss: percentValue,
-      })
-      return style
+    [/^autobg-\[(url.+?)\]$/, ([, path]) => {
+      return processor?.(path)
     }],
-  ]
+    [/^autobg-\[(url.+?)\]-(\d+(?:\.\d+)?%?)$/, ([, path, value]) => {
+      return processor?.(path, undefined, value)
+    }],
+    [/^autobg-\[(url.+?)\]-(w|h|width|height)-?(\d+(?:\.\d+)?%?)$/, ([, path, side, value]) => {
+      return processor?.(path, side, value)
+    }],
+
+    [/^autobg-(?:aspect|asp)-\[(url.+?)\]$/, ([, path]) => {
+      return processor?.(path, undefined, undefined, true)
+    }],
+    [/^autobg-(?:aspect|asp)-\[(url.+?)\]-(\d+(?:\.\d+)?[a-zA-Z%]*)$/, ([, path, value]) => {
+      return processor?.(path, 'height', value, true)
+    }],
+    [/^autobg-(?:aspect|asp)-\[(url.+?)\]-(w|h|width|height)(?:-?(\d+(?:\.\d+)?[a-zA-Z%]*))?$/, ([, path, side, value]) => {
+      return processor?.(path, side, value, true)
+    }],
+  ] satisfies [RegExp, DynamicMatcher<object>][]
+}
+
+export function rules(options: RequiredAutobgUnocssConfig, store: Store): Rule<object>[] {
+  return createRuleRegExps((path, side, value, aspect) => {
+    path = path.replace(/url\(['"]?(.+?)['"]?\)/, '$1')
+    const filepath = resolveFilepath(path, '', store.root, options)
+    const csspath = resolveCsspath(filepath, store.root, options)
+
+    return createCSS(csspath, filepath, {
+      side,
+      value,
+      aspect,
+      transformSize: options.transformSize ?? (value => `${value}px`),
+    })
+  })
 }

@@ -1,59 +1,63 @@
 import type { HighlightAnnotation, SourceCodeTransformer } from '@unocss/core'
 import type { RequiredAutobgUnocssConfig } from './config'
 import type { Store } from './store'
-import { dirname, join } from 'node:path'
-import { isAlias, isRelative, normalizePath } from '@autobg/shared'
+import { isRelative, normalizePath } from '@autobg/shared'
+import { dirname, join, normalize } from 'pathe'
 import { name as PKG_NAME } from '../package.json'
+import { createRuleRegExps } from './rules'
 
-export const cssUrlRE = /url\(['"]?(.+?)(['"])?\)/g
-export const transformRE = /autobg-\[(.+?)\](?:-([wh])-?(\d+(?:\.\d+)?)|-(\d+(?:\.\d+)?%?))?/g
+const URL_RE = /url\(['"]?(.+?)(['"])?\)/
+
+const exactRegExps = createRuleRegExps().map(([regexp]) => regexp)
 
 export function transformer(config: RequiredAutobgUnocssConfig, store: Store): SourceCodeTransformer {
   return {
     name: `${PKG_NAME}:transformer`,
     enforce: 'pre',
-    idFilter: id => !id.includes('uno.css'),
     transform(code, id, ctx) {
       store.updateRoot({ configRoot: config.root, ctxRoot: ctx.root })
-
       id = id.replace(/\\/g, '/')
 
       const annotations: HighlightAnnotation[] = []
 
-      for (const match of code.original.matchAll(transformRE)) {
-        const [pattern, rawPath] = match
-
-        if (!pattern) {
-          continue
+      const fuzzyMatches = code.original.matchAll(/autobg(?:-asp|-aspect)?-\[url\(.+?\)\][a-zA-Z0-9-%]*/g)
+      for (const { index, 0: original } of fuzzyMatches) {
+        const exactMatch = find(exactRegExps, regexp => original.match(regexp))
+        if (!exactMatch) {
+          return
         }
+        const { 0: pattern, 1: rawpath } = exactMatch
+        const csspath = normalizePath(rawpath)
 
-        let cssPath = normalizePath(rawPath)
-        if (!cssPath) {
-          continue
-        }
+        let path = csspath
+        let className = pattern
 
         // Vite does not parse relative paths, so they need to be converted to absolute paths based on the project root directory.
-        if (store.root && !isAlias(cssPath, config.alias) && isRelative(cssPath)) {
-          const tmp = join(dirname(id), cssPath)
-            .replace(/\\/g, '/') // make sure the path is posix path
-          cssPath = tmp.replace(store.root, '')
+        if (store.root && isRelative(csspath)) {
+          path = join(dirname(id), csspath).replace(normalize(store.root), '')
+          className = pattern.replace(URL_RE, (_, __, quote = '') => `url(${quote}${path}${quote})`)
         }
 
-        const className = pattern.replace(cssUrlRE, (_, __, quote = '') => `url(${quote}${cssPath}${quote})`)
-
         const length = pattern.length
-        const start = match.index
+        const start = index
         const end = start + length
-        code.overwrite(start, end, className)
 
-        annotations.push({
-          offset: start,
-          length,
-          className: className.trim(),
-        })
+        code.overwrite(start, end, className)
+        annotations.push({ offset: start, length, className })
       }
 
       return { highlightAnnotations: annotations }
     },
   }
+}
+
+function find<Item, T>(array: Item[], callback: (item: Item) => T | undefined): T | undefined {
+  for (const item of array) {
+    const result = callback(item)
+    if (result) {
+      return result
+    }
+  }
+
+  return undefined
 }

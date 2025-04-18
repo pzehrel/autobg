@@ -23,13 +23,13 @@ export function autoCssSize(px: number, config: RequiredAutobgMacroConfig) {
 interface OverviewOptions {
   css: Record<string, string>
   babel: typeof Babel
-  reference: Babel.NodePath
+  ref: Babel.NodePath
 }
 
 /**
  * modify code
  */
-export function overwrite({ css, babel, reference }: OverviewOptions) {
+export function overwrite({ css, babel, ref }: OverviewOptions) {
   const code = Object.entries(css).reduce((acc, [key, value]) => {
     if (value === undefined || value === null) {
       return acc
@@ -41,7 +41,7 @@ export function overwrite({ css, babel, reference }: OverviewOptions) {
   const body = babel.parse(`var str = \`${code}\``)?.program.body[0] as VariableDeclaration | undefined
   const ast = body?.declarations[0].init
   if (ast) {
-    reference.parentPath?.replaceWith(ast)
+    ref.replaceWith(ast)
   }
 }
 

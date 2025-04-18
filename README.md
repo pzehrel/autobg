@@ -1,29 +1,33 @@
-# autobg
+# 🎨 autobg
 
 [中文](./README.zh-CN.md)
 
-A tool that generates CSS styles to match element dimensions with image aspect ratios, referenced from [littlee/autobg.macro](https://github.com/littlee/autobg.macro) project, now supporting multiple usage methods.
+[![npm version](https://img.shields.io/npm/v/@autobg/postcss.svg?style=flat)](https://www.npmjs.com/package/@autobg/postcss)
+[![npm downloads](https://img.shields.io/npm/dm/@autobg/postcss.svg?style=flat)](https://www.npmjs.com/package/@autobg/postcss)
 
-## Features
+This is a CSS utility library that automatically generates `background-image`, `width`, and `height` styles for elements based on local image paths.
 
-- 🎯 Supports multiple usage methods:
-  - Babel Macro
-  - UnoCSS Preset
-  - PostCSS Plugin
-- 📐 Automatically calculates and generates aspect ratio styles for background images
-- 🛠️ Compatible with webpack and vite build tools
-- 🔗 Supports path aliases
-- 📍 Supports both relative and absolute paths
-- ⚙️ Customizable units and design draft width (babel macro only)
+💡 Iterated from the [littlee/autobg.macro](https://github.com/littlee/autobg.macro)
 
-## Usage
+## 🚀 Features
 
-For detailed documentation, please refer to:
+- 🖼️ Automatically generates styles that respect the original aspect ratio of images
+- 🛠️ Supports multiple integration methods:
+  - [babel-plugin-macros](https://github.com/kentcdodds/babel-plugin-macros) plugin
+  - [unocss](https://github.com/unocss/unocss) preset
+  - [postcss](https://github.com/postcss/postcss) plugin
+- 🔄 Fully compatible with [webpack](https://github.com/webpack/webpack) and [vite](https://github.com/vitejs/vite)
+- 🔗 Supports relative path image imports in unocss and vite [unocss #1397](https://github.com/unocss/unocss/issues/1397)
+- 📏 Supports custom style units in babel macro
 
-- [Babel Macro Documentation](./packages/babel-macro/README.md)
-- [UnoCSS Documentation](./packages/unocss/README.md)
-- [PostCSS Documentation](./packages/postcss/README.md)
+## 📖 Usage
 
-## License
+For detailed usage instructions, please check the corresponding documentation:
+
+- 📦 [@autobg/babel.macro](./packages/babel-macro/README.md)
+- 🎨 [@autobg/unocss](./packages/unocss/README.md)
+- 🔧 [@autobg/postcss](./packages/postcss/README.md)
+
+## 📄 License
 
 MIT

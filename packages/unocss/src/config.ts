@@ -19,6 +19,16 @@ export interface AutobgUnocssConfig extends Config {
    * ```
    */
   root?: string
+
+  /**
+   * Transforms width and height values, allowing you to add style units.
+   *
+   * May be deprecated in the future.
+   *
+   * @param size - The original width and height value.
+   * @returns The transformed width and height value.
+   */
+  transformSize?: (size: number) => string | number
 }
 
-export type RequiredAutobgUnocssConfig = RequiredConfig & Pick<AutobgUnocssConfig, 'root'>
+export type RequiredAutobgUnocssConfig = RequiredConfig & Pick<AutobgUnocssConfig, 'root' | 'transformSize'>

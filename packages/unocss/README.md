@@ -1,19 +1,21 @@
-# @autobg/unocss
+# 🎨 @autobg/unocss
+
+[![npm version](https://img.shields.io/npm/v/@autobg/unocss.svg?style=flat)](https://www.npmjs.com/package/@autobg/unocss)
+[![npm downloads](https://img.shields.io/npm/dm/@autobg/unocss.svg?style=flat)](https://www.npmjs.com/package/@autobg/unocss)
 
 [中文](./README.zh-CN.md)
 
-A tool for automatically setting element dimensions based on background image size, built on top of [unocss](https://github.com/unocss/unocss).
+> A UnoCSS preset that generates complete background image and size styles based on local image path.
 
-Automatically get image dimensions and apply corresponding CSS styles with simple local image paths, no manual width/height calculations needed.
+## ✨ Core Features
 
-## ✨ Features
+- 🚀 **Perfect support** for Vite build tool
+- 🔄 **Smart recognition** of image dimensions and automatic application
+- 📍 **Flexible support** for relative paths and path aliases
+- 🎨 **Seamless integration** with UnoCSS ecosystem
+- 📐 **Multiple modes** offering flexible scaling options
 
-- 🚀 Vite support
-- 🔄 Automatic image dimension detection and application
-- 📍 Support for relative paths and path aliases
-- 🎨 Seamless integration with UnoCSS
-
-> ⚠️ Note: Currently not compatible with `unocss@66.1.0` as it's in beta stage with preset mechanism changes.
+> ⚠️ **Note**: Currently not supporting `unocss@66.1.0` version, which is in beta stage with changed preset mechanism.
 
 ## 📦 Installation
 
@@ -23,7 +25,7 @@ pnpm add @autobg/unocss
 
 ## ⚙️ Configuration
 
-### Vite Configuration
+### Vite Projects
 
 ```ts
 // uno.config.ts
@@ -32,71 +34,162 @@ import { defineConfig } from 'unocss'
 
 export default defineConfig({
   presets: [
-    autobgPreset(),
+    autobgPreset({
+      // Use absolute path instead of process.cwd().
+      // Since VSCode's unocss extension doesn't pass the project root path when calling the preset's transformer.
+      // This will cause incorrect code highlighting suggestions, but won't affect the actual class name generation.
+      root: import.meta.env.dirname,
+
+      // Transform width and height values, can add style units
+      // Default will convert to `px` unit
+      // This is a temporary solution and may be deprecated in the future
+      transformSize: value => `${value}px`,
+    }),
   ],
 })
 ```
 
-### Webpack Support
+### Webpack Support Notes
 
-Currently not supported for the following reasons:
-- Paths processed by Webpack's transformer cannot be correctly resolved
-- UnoCSS's official `bg-[url()]` rule also doesn't work properly with Webpack
+Currently Webpack is not supported, mainly because:
 
-## 🎯 Usage Examples
+- Webpack's transformer handling mechanism prevents correct path replacement
+- UnoCSS official `bg-[url()]` rule also has compatibility issues in Webpack environment
+
+## 🎯 Usage Guide
+
+### Basic Usage
+
+Easily specify background image path:
 
 ```tsx
-export function Component() {
-  return (
-    <>
-      {/* Using path alias */}
-      <div className="autobg-['url(@/assets/foo.png)']" />
-
-      {/* Using relative path */}
-      <div className="autobg-['url(./assets/foo.png)']" />
-
-      {/* Using image from public directory */}
-      <div className="autobg-['url(/foo.png)']" />
-
-      {/* Scale to specific width while preserving aspect ratio */}
-      <div className="autobg-['url(./assets/foo.png')]-w200" />
-      <div className="autobg-['url(./assets/foo.png')]-w-200" />
-
-      {/* Scale to specific height while preserving aspect ratio */}
-      <div className="autobg-['url(./assets/foo.png')]-h200" />
-      <div className="autobg-['url(./assets/foo.png')]-h-200" />
-
-      {/* Apply uniform scaling (number) */}
-      <div className="autobg-['url(./assets/foo.png')]-0.78" />
-
-      {/* Apply uniform scaling (percentage) */}
-      <div className="autobg-['url(./assets/foo.png')]-78%" />
-    </>
-  )
-}
+<div className="autobg-['url(/foo.png)']" />
+<div className="autobg-['url(@/assets/foo.png)']" />
+<div className="autobg-['url(../assets/foo.png)']" />
 ```
 
-> 💡 Tip: When using path aliases or images from the `public` directory, ensure that `alias` and `publicPath` configurations match your build tool settings.
+### Proportional Scaling
 
-### Scaling Options
+#### Fixed Width or Height
 
-You can scale images while preserving the original aspect ratio using the following options:
+Specify one dimension, and the other will be automatically calculated based on the original image ratio:
 
-| Option | Format | Description |
-| --- | --- | --- |
-| Width scaling | `autobg-['url(...)']-w{number}` or `autobg-['url(...)']-w-{number}` | Scale to specific width. Height will be automatically calculated to maintain aspect ratio. |
-| Height scaling | `autobg-['url(...)']-h{number}` or `autobg-['url(...)']-h-{number}` | Scale to specific height. Width will be automatically calculated to maintain aspect ratio. |
-| Uniform scaling (number) | `autobg-['url(...)']-{number}` | Apply uniform scaling to both dimensions using a number value (e.g., 0.78). |
-| Uniform scaling (percentage) | `autobg-['url(...)']-{percentage}%` | Apply uniform scaling to both dimensions using a percentage value (e.g., 78%). |
+```tsx
+// Specify width
+<div className="autobg-['url(/foo.png)']-w200" />
 
-## 📝 Configuration Options
+// Use separator to connect value
+<div className="autobg-['url(/foo.png)']-w-200" />
 
-| Option | Type | Default | Description |
-| --- | --- | --- | --- |
-| publicPath | `string` | `'public'` | Path to the public directory, should match build tool configuration |
-| alias | `Record<string, string>` | `{ '@/': 'src/', '~': 'src/', '~@/': 'src/' }` | Path alias configuration, should match build tool configuration. Pass an empty object `{}` if not using path aliases |
-| root | `string` | `undefined` | The root directory path of the project. If not provided, the correct style class preview cannot be displayed in the VSCode unocss extension |
+// Specify height
+<div className="autobg-['url(/foo.png)']-h200" />
 
-## License
+// Use separator to connect value
+<div className="autobg-['url(/foo.png)']-h-200" />
+```
+
+> 💡 **Tip**: Style units (such as `px`, `rem`, etc.) are not currently supported, as they would prevent correct scaling ratio calculation.
+> Note that the `-` in `w-200` is only used as a separator, not indicating a negative value.
+
+#### Percentage Scaling
+
+Use percentage values to control scaling ratio:
+
+```tsx
+// Width percentage
+<div className="autobg-['url(/foo.png)']-w78%" />
+
+// Height percentage
+<div className="autobg-['url(/foo.png)']-h78%" />
+```
+
+> 💡 **Tip**: Percentage must end with `%`, otherwise it will be treated as a regular value.
+
+#### Overall Scaling Ratio
+
+Without specifying a particular dimension, will adjust uniformly by overall ratio:
+
+```tsx
+// Decimal form (0.78x scaling)
+<div className="autobg-['url(/foo.png)']-0.78" />
+
+// Percentage form (scale to 78%)
+<div className="autobg-['url(/foo.png)']-78%" />
+```
+
+### Using aspect-ratio Property
+
+Utilize modern CSS [aspect-ratio](https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio) property to maintain element aspect ratio, enabling more flexible layout control.
+
+Especially suitable for responsive scaling scenarios, particularly effective when parent element dimensions change dynamically:
+
+```tsx
+// Parent element height may change dynamically
+<div className="h200">
+  {/* Child element will automatically maintain the original image aspect ratio and adapt to the parent element */}
+  <div className="autobg-aspect-['url(/foo.png)']-h"></div>
+</div>
+```
+
+When the parent element's height changes, the child element will automatically maintain the original image's aspect ratio, achieving proportional scaling.
+
+#### Basic Usage
+
+Without specifying width/height, only generates background and aspect ratio:
+
+```tsx
+<div className="autobg-aspect-['url(/foo.png)']" />
+```
+
+#### 📐 Specify Generated Width or Height
+
+Automatically generate one dimension (default 100%):
+
+```tsx
+// Generate height, maintain original image aspect ratio
+<div className="autobg-aspect-['url(/foo.png)']-h" />
+
+// Generate width, maintain original image aspect ratio
+<div className="autobg-aspect-['url(/foo.png)']-w" />
+```
+
+#### Custom Ratio
+
+Set width and height:
+
+```tsx
+<div className="autobg-aspect-['url(/foo.png)']-h78%" />
+<div className="autobg-aspect-['url(/foo.png)']-h78" />
+<div className="autobg-aspect-['url(/foo.png)']-h78rem" />
+
+<div className="autobg-aspect-['url(/foo.png)']-w78%" />
+<div className="autobg-aspect-['url(/foo.png)']-w78" />
+<div className="autobg-aspect-['url(/foo.png)']-w78rem" />
+```
+
+> 💡 **Tip**: In aspect mode, values are set directly to width or height property without transformation.
+
+## 📋 Rule Overview
+
+| Option                     | Syntax                                | Description                                                      |
+| -------------------------- | ------------------------------------- | ---------------------------------------------------------------- |
+| Width Scaling              | `autobg-['url(...)']-w{value}`        | Fixed width, height calculated by ratio (value in pixels)        |
+| Height Scaling             | `autobg-['url(...)']-h{value}`        | Fixed height, width calculated by ratio (value in pixels)        |
+| Overall Scaling            | `autobg-['url(...)']-{value or %}`    | Scale both dimensions proportionally (decimal or percentage)     |
+| Aspect Ratio-Width         | `autobg-aspect-['url(...)']-w`        | Generate width and set aspect-ratio, keep original ratio         |
+| Aspect Ratio-Height        | `autobg-aspect-['url(...)']-h`        | Generate height and set aspect-ratio, keep original ratio        |
+| Aspect Ratio-Custom Width  | `autobg-aspect-['url(...)']-w{value}` | Set width to specified value and maintain original aspect ratio  |
+| Aspect Ratio-Custom Height | `autobg-aspect-['url(...)']-h{value}` | Set height to specified value and maintain original aspect ratio |
+
+## ⚙️ Configuration Options
+
+| Option        | Type                                 | Default                                        | Description                                                                                                                          |
+| ------------- | ------------------------------------ | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| publicPath    | `string`                             | `'public'`                                     | Public directory path, should be consistent with build tool configuration                                                            |
+| alias         | `Record<string, string>`             | `{ '@/': 'src/', '~': 'src/', '~@/': 'src/' }` | Path alias configuration, should be consistent with build tool configuration<br>If not using path aliases, pass an empty object `{}` |
+| root          | `string`                             | `undefined`                                    | Project root directory path<br>If not provided, cannot correctly preview style classes in VSCode unocss extension                    |
+| transformSize | `(size: number) => string \| number` | `undefined`                                    | Transform width and height values, can add style units                                                                               |
+
+## 📄 License
 
 MIT

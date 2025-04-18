@@ -13,18 +13,4 @@ export interface Size {
   height: number
 }
 
-/**
- * A size with unit.
- *
- * @example
- * ```ts
- * const size: UnitSize = {
- *   width: '100px',
- *   height: '100px',
- * }
- * ```
- */
-export interface UnitSize {
-  width: `${number}${string}` | (string & {})
-  height: `${number}${string}` | (string & {})
-}
+export type TransformSize = (value: number) => string | number
