@@ -1,5 +1,5 @@
 import type { AutobgMacroConfig } from './config'
-import type { AutobgFn } from './types'
+import type { Autobg } from './types'
 import { resolveConfig } from '@autobg/shared'
 import { createMacro } from 'babel-plugin-macros'
 import { defaultAutobgMacroConfig } from './config'
@@ -9,12 +9,6 @@ import { toArray } from './utils'
 export { defineAutobgMacro } from './config'
 export type { AutobgMacroConfig } from './config'
 
-interface Autobg extends AutobgFn {
-  /**
-   * Use the `aspect-ratio` property to control the aspect ratio of an element
-   */
-  aspect: AutobgFn
-}
 
 const autobg = createMacro((params) => {
   const { references, state, babel } = params
@@ -33,13 +27,13 @@ const autobg = createMacro((params) => {
       && ref.parentPath === ref.parentPath.parentPath.get('callee')
     ) {
       const argumentNodes = toArray(ref.parentPath.parentPath.get('arguments'))
-      processor({ aspect: true, ref: ref.parentPath.parentPath, config, state, babel, argumentNodes })
+      processor({ aspect: true, ref: ref.parentPath.parentPath, config, state, babel, argNodes: argumentNodes })
     }
 
     // autobg()
     if (ref.parentPath?.node.type === 'CallExpression' && ref === ref.parentPath.get('callee')) {
       const argumentNodes = toArray(ref.parentPath.get('arguments'))
-      processor({ aspect: false, ref, config, state, babel, argumentNodes })
+      processor({ aspect: false, ref, config, state, babel, argNodes: argumentNodes })
     }
   })
 }, { configName: 'autobg' }) as unknown as Autobg

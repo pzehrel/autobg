@@ -119,6 +119,10 @@ function createAspectCSS(size: Size | null, side: Dimension | undefined, value: 
     return css
   }
 
+  if (side === 'scale') {
+    side = 'height'
+  }
+
   // aspect-ratio value will be calculated automatically, so value just needs to be returned as is
   return Object.assign(css, { [side]: value })
 }

@@ -1,3 +1,4 @@
+import type { InputDimension } from '@autobg/shared'
 import type { NodePath, PluginPass } from '@babel/core'
 import type * as Babel from '@babel/core'
 import type { AutobgMacroConfig } from './config'
@@ -11,25 +12,33 @@ interface ProcessorParams {
   state: PluginPass
   babel: typeof Babel
   aspect?: boolean
-  argumentNodes: Babel.NodePath[]
+  argNodes: Babel.NodePath[]
 }
 
 export function processor(params: ProcessorParams) {
-  const { ref, config, state, babel, aspect, argumentNodes } = params
+  const { ref, config, state, babel, aspect, argNodes } = params
 
   const root = state.file.opts.root ?? process.cwd()
   const id = state.file.opts.filename as string
 
-  const csspath = argumentNodes[0].evaluate().value as string
+  const csspath = argNodes[0].evaluate().value as string
   const filepath = resolveFilepath(csspath, id, root, config)
+
+  let side: string | undefined = argNodes[1]?.evaluate().value
+  let value: string | any = argNodes[2]?.evaluate().value
+
+  if (side !== undefined && !isSide(side)) {
+    value = side
+    side = undefined
+  }
 
   const css = createCSS(
     isHttp(csspath) ? csspath : `\${${resolveInjectCode(csspath)}}`,
     filepath,
     {
       aspect,
-      side: argumentNodes[1]?.evaluate().value,
-      value: argumentNodes[2]?.evaluate().value,
+      side,
+      value,
       transformSize: size => autoCssSize(size, config),
     },
   )
@@ -41,4 +50,8 @@ function resolveInjectCode(path: string) {
   const vite = `new URL('${path}', import.meta.url).href`
   const webpack = `require('${path}')?.default ?? require('${path}')`
   return `typeof require === 'undefined' ? ${vite} : ${webpack}`
+}
+
+function isSide(value: string | undefined): boolean {
+  return ['w', 'h', 'width', 'height', 's', 'scale'].includes(value ?? '')
 }

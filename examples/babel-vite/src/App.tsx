@@ -8,7 +8,7 @@ const ViteLogo = styled.div`
 `
 
 const ReactLogo = styled.div`
-  ${autobg.aspect('@/assets/react.png', 'h', 30)};
+  ${autobg.aspect('@/assets/react.png', 'h', '30%')};
   display: inline-block;
 `
 const ReactLogo2 = styled.div`
@@ -23,7 +23,7 @@ function App() {
         <a href="https://vite.dev" target="_blank">
           <ViteLogo className="logo" />
         </a>
-        <a href="https://react.dev" target="_blank">
+        <a href="https://react.dev" target="_blank" style={{ height: '100px', display: 'inline-block' }}>
           <ReactLogo className="logo react"></ReactLogo>
         </a>
         <a href="https://react.dev" target="_blank">

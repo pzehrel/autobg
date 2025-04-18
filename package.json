@@ -37,6 +37,7 @@
     "@types/node": "catalog:",
     "@unocss/core": "catalog:",
     "babel-plugin-macros": "catalog:",
+    "babel-plugin-tester": "^11.0.4",
     "bumpp": "catalog:",
     "eslint": "catalog:",
     "eslint-plugin-format": "^1.0.1",

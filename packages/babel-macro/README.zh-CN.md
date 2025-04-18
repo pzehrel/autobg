@@ -164,22 +164,22 @@ export function Component() {
 
 #### 基础用法
 
-不指定宽高时，仅生成背景和宽高比，需要手动添加宽度或高度：
+不指定宽高时，仅生成背景和宽高比：
 
 ```tsx
 import autobg from '@autobg/babel.macro'
 import { styled } from 'styled-components'
 
 const Foo = styled.div`
-  /* 需要手动设置宽度或高度 */
   ${autobg.aspect('@/assets/foo.png')}
+  /* 需要手动设置宽度或高度 */
   width: 100%;
 `
 ```
 
-#### 指定生成宽度或高度
+#### 📐 指定生成宽度或高度
 
-自动生成一个维度的值（默认100%），并保持原图宽高比：
+自动生成一个维度的值（默认100%）：
 
 ```tsx
 import autobg from '@autobg/babel.macro'
@@ -200,38 +200,40 @@ const WidthAuto = styled.div`
 
 #### 自定义比例
 
-提供百分比或小数值，精确设置对应维度：
+设置宽高：
 
 ```tsx
 import autobg from '@autobg/babel.macro'
 import { styled } from 'styled-components'
 
-// 设置高度为78%，宽度按比例计算
+// 设置高度值，保持原图宽高比
 const HeightCustom = styled.div`
   ${autobg.aspect('@/assets/foo.png', 'height', '78%')}
-  ${autobg.aspect('@/assets/foo.png', 'h', 0.78)}
+  ${autobg.aspect('@/assets/foo.png', 'h', '78px')}
+  ${autobg.aspect('@/assets/foo.png', 'h', '78rem')}
 `
 
-// 设置宽度为78%，高度按比例计算
+// 设置宽度值，保持原图宽高比
 const WidthCustom = styled.div`
   ${autobg.aspect('@/assets/foo.png', 'width', '78%')}
-  ${autobg.aspect('@/assets/foo.png', 'w', 0.78)}
+  ${autobg.aspect('@/assets/foo.png', 'w', '78px')}
+  ${autobg.aspect('@/assets/foo.png', 'w', '78rem')}
 `
 ```
 
-> 💡 **提示**：在 aspect 模式下，数值和百分比都会被换算为百分比值。这与普通模式下的缩放行为不同，普通模式中数值表示具体像素值。
+> 💡 **提示**：在 aspect 模式下，值会直接设置到 width 或 height 属性上，不会经过转换。
 
 ### 📋 缩放选项总览
 
-| 选项              | 语法                                | 功能描述                                                           |
-| ----------------- | ----------------------------------- | ------------------------------------------------------------------ |
-| 宽度缩放          | `autobg(path, 'width', 值)`         | 固定宽度，高度按比例自动计算（值表示像素等具体单位）               |
-| 高度缩放          | `autobg(path, 'height', 值)`        | 固定高度，宽度按比例自动计算（值表示像素等具体单位）               |
-| 整体缩放          | `autobg(path, 值或百分比)`          | 按比例统一缩放两个维度（数值表示缩放比例，百分比表示缩放比例）     |
-| 宽高比模式-宽度   | `autobg.aspect(path, 'width')`      | 生成宽度并设置 aspect-ratio，保持原图宽高比                        |
-| 宽高比模式-高度   | `autobg.aspect(path, 'height')`     | 生成高度并设置 aspect-ratio，保持原图宽高比                        |
-| 宽高比模式-自定义 | `autobg.aspect(path, 'width', 值)`  | 设置宽度为指定比例并保持原图宽高比（数值和百分比都被视为百分比值） |
-| 宽高比模式-自定义 | `autobg.aspect(path, 'height', 值)` | 设置高度为指定比例并保持原图宽高比（数值和百分比都被视为百分比值） |
+| 选项                | 语法                                | 功能描述                                             |
+| ------------------- | ----------------------------------- | ---------------------------------------------------- |
+| 宽度缩放            | `autobg(path, 'width', 值)`         | 固定宽度，高度按比例自动计算（值表示像素等具体单位） |
+| 高度缩放            | `autobg(path, 'height', 值)`        | 固定高度，宽度按比例自动计算（值表示像素等具体单位） |
+| 整体缩放            | `autobg(path, 值或百分比)`          | 按比例统一缩放两个维度（数值或百分比表示缩放比例）   |
+| 宽高比模式-宽度     | `autobg.aspect(path, 'width')`      | 生成宽度并设置 aspect-ratio，保持原图宽高比          |
+| 宽高比模式-高度     | `autobg.aspect(path, 'height')`     | 生成高度并设置 aspect-ratio，保持原图宽高比          |
+| 宽高比模式-自定义宽 | `autobg.aspect(path, 'width', 值)`  | 设置宽度为指定值并保持原图宽高比                     |
+| 宽高比模式-自定义高 | `autobg.aspect(path, 'height', 值)` | 设置高度为指定值并保持原图宽高比                     |
 
 > 💡 **提示**：使用路径别名或 `public` 目录下的图片时，需要确保 `alias` 和 `publicPath` 配置与构建工具配置保持一致。
 

@@ -1,14 +1,10 @@
-import type { Config } from '@autobg/shared'
 import type { PluginCreator } from 'postcss'
+import type { AutobgPostcssConfig } from './config'
 import process from 'node:process'
 import { resolveConfig } from '@autobg/shared'
 import { createProcessor } from './processor'
 
-export interface PostcssAutobgPluginConfig extends Config {
-  root?: string
-}
-
-export const postcssAutobg: PluginCreator<PostcssAutobgPluginConfig> = (config) => {
+export const postcssAutobg: PluginCreator<AutobgPostcssConfig> = (config) => {
   const root = (config?.root || process.cwd()).replace(/\\/g, '/')
 
   const cfg = resolveConfig(config)
