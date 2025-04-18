@@ -1,5 +1,8 @@
 # 🎨 autobg
 
+[![npm version](https://img.shields.io/npm/v/@autobg/postcss.svg?style=flat)](https://www.npmjs.com/package/@autobg/postcss)
+[![npm downloads](https://img.shields.io/npm/dm/@autobg/postcss.svg?style=flat)](https://www.npmjs.com/package/@autobg/postcss)
+
 这是一个CSS工具库，它能够根据提供的本地图片路径，自动为元素生成`background-image`、`width`和`height`的样式代码。
 
 💡 迭代自[littlee/autobg.macro](https://github.com/littlee/autobg.macro)

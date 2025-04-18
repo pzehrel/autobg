@@ -1,6 +1,9 @@
 # 🎨 @autobg/babel.macro
 
-一个基于 [babel-plugin-macros](https://github.com/kentcdodds/babel-plugin-macros) 的宏工具，专为 [styled-components](https://styled-components.com/) 设计。通过简单的本地图片路径，自动获取图片尺寸并设置相应的 CSS 样式。
+[![npm version](https://img.shields.io/npm/v/@autobg/babel.macro.svg?style=flat)](https://www.npmjs.com/package/@autobg/babel.macro)
+[![npm downloads](https://img.shields.io/npm/dm/@autobg/babel.macro.svg?style=flat)](https://www.npmjs.com/package/@autobg/babel.macro)
+
+基于 [babel-plugin-macros](https://github.com/kentcdodds/babel-plugin-macros) 的宏工具，专为 [styled-components](https://styled-components.com/) 设计。通过简单的本地图片路径，自动获取图片尺寸并设置相应的 CSS 样式。
 
 ## ✨ 核心特性
 

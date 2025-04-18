@@ -2,6 +2,9 @@
 
 [中文](./README.zh-CN.md)
 
+[![npm version](https://img.shields.io/npm/v/@autobg/postcss.svg?style=flat)](https://www.npmjs.com/package/@autobg/postcss)
+[![npm downloads](https://img.shields.io/npm/dm/@autobg/postcss.svg?style=flat)](https://www.npmjs.com/package/@autobg/postcss)
+
 This is a CSS utility library that automatically generates `background-image`, `width`, and `height` styles for elements based on local image paths.
 
 💡 Iterated from the [littlee/autobg.macro](https://github.com/littlee/autobg.macro)

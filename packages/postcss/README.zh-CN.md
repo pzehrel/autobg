@@ -1,6 +1,9 @@
 # 🎨 @autobg/postcss
 
-一个基于 [PostCSS](https://postcss.org/) 的插件，提供了名为 `@autobg` 和 `@autobg-aspect` 的 [AtRule](https://postcss.org/api/#atrule)。通过简单的图片路径声明，即可自动设置元素的背景图片和尺寸。
+[![npm version](https://img.shields.io/npm/v/@autobg/postcss.svg?style=flat)](https://www.npmjs.com/package/@autobg/postcss)
+[![npm downloads](https://img.shields.io/npm/dm/@autobg/postcss.svg?style=flat)](https://www.npmjs.com/package/@autobg/postcss)
+
+基于 [PostCSS](https://postcss.org/) 的插件，提供了名为 `@autobg` 和 `@autobg-aspect` 的 [AtRule](https://postcss.org/api/#atrule)。通过简单的图片路径声明，即可自动设置元素的背景图片和尺寸。
 
 ## ✨ 核心特性
 
