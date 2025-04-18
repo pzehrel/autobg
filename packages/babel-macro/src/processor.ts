@@ -1,4 +1,3 @@
-import type { InputDimension } from '@autobg/shared'
 import type { NodePath, PluginPass } from '@babel/core'
 import type * as Babel from '@babel/core'
 import type { AutobgMacroConfig } from './config'

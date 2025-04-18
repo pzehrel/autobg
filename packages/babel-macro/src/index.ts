@@ -9,7 +9,6 @@ import { toArray } from './utils'
 export { defineAutobgMacro } from './config'
 export type { AutobgMacroConfig } from './config'
 
-
 const autobg = createMacro((params) => {
   const { references, state, babel } = params
 
