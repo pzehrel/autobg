@@ -12,3 +12,5 @@ export interface Size {
   width: number
   height: number
 }
+
+export type TransformSize = (value: number) => string | number

@@ -1,53 +1,57 @@
-import type { NumberString, Percentage, Size } from './type'
+import type { NumberString, Percentage, Size, TransformSize } from './type'
 import { imageSize } from './image-size'
 import { isHttp } from './utils'
 
-type ExactSide = 'w' | 'h' | 's'
-export type Side = ExactSide | 'width' | 'height' | 'scale'
+type Dimension = 'width' | 'height' | 'scale'
+export type InputDimension = Dimension | 'w' | 'h' | 's'
 
 export interface CreateCssOptions {
   /**
-   * Determines which dimension to use for calculating the scaling ratio
+   * Determines which dimension to use for scaling
    *
-   * - `w`/`width`: Calculate scaling ratio based on width, automatically compute height
-   * - `h`/`height`: Calculate scaling ratio based on height, automatically compute width
-   * - `s`/`scale`: Direct scaling ratio
+   * - `w`/`width`: Fixed width, height automatically calculated proportionally
+   * - `h`/`height`: Fixed height, width automatically calculated proportionally
+   * - `s`/`scale`: Overall scaling (both dimensions scaled proportionally)
    */
-  side?: Side | (string & {})
+  side?: InputDimension | (string & {})
 
   /**
-   * Use the `aspect-ratio` property to maintain aspect ratio. When using this option,
-   * only one dimension's style property can be preserved, otherwise `aspect-ratio` won't take effect.
+   * Use the `aspect-ratio` property to maintain aspect ratio.
+   * Especially suitable for responsive scaling scenarios when parent element dimensions change dynamically.
    *
-   * The preserved dimension depends on the `side` value:
-   * - When `side` is `w`/`s`, width is preserved
-   * - When `side` is `h`, height is preserved
+   * When using this option, only one dimension's style property will be generated,
+   * (the other dimension will be controlled by aspect-ratio)
+   *
+   * The generated dimension depends on the `side` value:
+   * - When `side` is `w`/`width`: Generate width
+   * - When `side` is `h`/`height`: Generate height
    */
   aspect?: boolean
 
   /**
-   * Value used to calculate the proportional scaling ratio
+   * Value used for scaling:
    *
-   * - Number: When `side` is `s`, represents the scaling ratio (e.g., 0.7);
-   *   When `side` is `w`/`h`, represents the scaled width/height (e.g., 100)
-   * - Percentage string: When `side` is `w`/`h`, represents width/height (e.g., '70%')
+   * For normal mode (when aspect=false):
+   * - When `side` is `w`/`width` or `h`/`height`: Numeric value represents pixels
+   * - When `side` is `s`/`scale`: Numeric value represents scale ratio, percentage represents scale ratio
+   *
+   * For aspect-ratio mode (when aspect=true):
+   * - Both numeric values and percentages are treated as percentage values
    */
   value?: NumberString | Percentage
 
   /** Function to transform size units */
-  transformSize?: (value: number) => string
+  transformSize?: TransformSize
 }
 
 /**
- * Creates CSS styles for background images with proper scaling
- * @param csspath The path referenced in CSS (this path will be processed by the compiler)
+ * Create CSS styles
+ * @param csspath Path referenced in CSS (compiler can transform this path)
  * @param filepath The actual path of the image
  * @param options Configuration options
- * @returns CSS style object
  */
-export function createCSS(csspath: string, filepath?: string, options?: CreateCssOptions) {
+export function createCSS(csspath: string, filepath?: string, options?: CreateCssOptions): Record<string, string> {
   const size = filepath && !isHttp(csspath) ? imageSize(filepath) : null
-
   const css: Record<string, string> = {
     'background-image': `url('${csspath}')`,
     'background-repeat': 'no-repeat',
@@ -55,109 +59,118 @@ export function createCSS(csspath: string, filepath?: string, options?: CreateCs
     'background-position': 'center',
   }
 
-  if (!size) {
-    if (options?.aspect) {
-      css['aspect-ratio'] = '1/1'
+  const side = formatSide(options?.side)
+  const value = parseNumberString(options?.value)
+
+  const whcss = options?.aspect
+    ? createAspectCSS(size, side, value)
+    : createScaleCSS(size, side, value)
+
+  const { transformSize } = options ?? {}
+  if (transformSize) {
+    if (whcss.width !== undefined && typeof whcss.width === 'number') {
+      whcss.width = transformSize(whcss.width)
     }
+    if (whcss.height !== undefined && typeof whcss.height === 'number') {
+      whcss.height = transformSize(whcss.height)
+    }
+  }
+
+  return Object.assign(css, whcss)
+}
+
+function createScaleCSS(size: Size | null, side: Dimension = 'scale', value: number | string = 1) {
+  const css: Record<string, string> = {}
+
+  if (!size) {
     return css
   }
 
-  const side = fmtSide(options?.side)
-  const value = options?.value ?? '100%'
-  const rate = size ? parseRate(size, side, value) : 1
+  const isPercent = typeof value === 'string' && value.endsWith('%')
+  const v = isPercent ? Number(value.slice(0, -1)) / 100 : Number(value)
 
-  const { transformSize = defaultTransformSize } = options ?? {}
-
-  const scaledSize = { width: size.width * rate, height: size.height * rate }
-  // const { width, height } = transformSize(scaledSize)
-  const width = transformSize(scaledSize.width)
-  const height = transformSize(scaledSize.height)
-
-  // When not using `aspect-ratio`, we need to provide both width and height to maintain aspect ratio
-  if (!options?.aspect) {
-    Object.assign(css, { width, height })
-  }
-  // When using `aspect-ratio`, we only need one dimension, otherwise `aspect-ratio` won't work
-  else {
-    css['aspect-ratio'] = `${size.width}/${size.height}`
-    if (side === 'h') {
-      css.height = height
-    }
-    else {
-      css.width = width
+  if (side === 'scale') {
+    const rate = v // Any value will be treated as a ratio (75, 0.5, 100%)
+    return {
+      width: size.width * rate,
+      height: size.height * rate,
     }
   }
-  return css
+
+  // Percentage values will be treated as ratios (75%)
+  // Numeric values will be converted to decimal ratios (0.75)
+  const rate = isPercent
+    ? v
+    : v / (side === 'width' ? size.width : size.height)
+
+  return {
+    width: size.width * rate,
+    height: size.height * rate,
+  }
 }
 
-function fmtSide(side: Side | (string & {}) = 's'): ExactSide {
-  if (side === 'h' || side === 'height') {
-    return 'h'
+function createAspectCSS(size: Size | null, side: Dimension | undefined, value: number | string | undefined = '100%') {
+  const css: Record<string, string> = {
+    'aspect-ratio': size ? `${size.width}/${size.height}` : '1/1',
   }
-  if (side === 'w' || side === 'width') {
-    return 'w'
+
+  // No dimension provided, no need to set width and height
+  if (!side) {
+    return css
   }
-  return 's'
+
+  // aspect-ratio value will be calculated automatically, so value just needs to be returned as is
+  return Object.assign(css, { [side]: value })
+}
+
+function formatSide(side?: InputDimension | (string & {})): Dimension | undefined {
+  if (side === 'w' || side === 'width')
+    return 'width'
+  if (side === 'h' || side === 'height')
+    return 'height'
+  if (side === 's' || side === 'scale')
+    return 'scale'
+  return undefined
+}
+
+function parseNumberString(value: NumberString | undefined | null): number | string | undefined {
+  if (value === undefined || value === null) {
+    return undefined
+  }
+  if (typeof value === 'string') {
+    const num = Number(value)
+    return Number.isNaN(num) ? value : num
+  }
+  return value
+}
+
+export interface ValueErrorMessage {
+  message: string
 }
 
 /**
- * Calculate scaling ratio
- *
- * - When `side` is `s`: Represents overall scaling ratio
- * - When `side` is `w`: Represents width scaling ratio, height will be calculated proportionally
- * - When `side` is `h`: Represents height scaling ratio, width will be calculated proportionally
- *
- * Percentage values:
- * - When `side` is `s`: A percentage string (e.g. '80%') represents overall scaling ratio
- * - When `side` is `s`: A number represents decimal percentage (1=100%)
- * - When `side` is `w`/`h`: A percentage string (e.g. '80%') represents scaling ratio for that dimension
- * - When `side` is `w`/`h`: A number represents the actual value after scaling, which will be used to calculate ratio
- *   (this behavior is different from `s`)
- *
- * @param size Actual image dimensions
- * @param side Which dimension to use for calculating the ratio
- * @param value Value for the scaling ratio
- * @returns The scaling ratio
+ * Validate if the value is valid
+ * @param value The value
+ * @param aspect Whether to use aspect-ratio mode
  */
-function parseRate(size: Size, side: ExactSide, value?: NumberString | Percentage): number {
-  const isPrecent = typeof value === 'string' && value.endsWith('%')
-  value = isPrecent ? Number((value as string).slice(0, -1)) : Number(value)
-
-  if (Number.isNaN(value)) {
-    return 1
+export function validateValue(value: number | string | undefined, aspect: boolean): true | ValueErrorMessage {
+  if (aspect) {
+    return true
   }
 
-  // For overall proportional scaling.
-  // Number value represents decimal percentage (1=100%)
-  // String with % represents percentage
-  if (side === 's') {
-    const rate = isPrecent ? value / 100 : value
-    return rate
+  // Non-aspect mode
+  // Values that are undefined, null, number, or percentage strings are considered valid
+  if (value === undefined || value === null || typeof value === 'number' || value.endsWith('%')) {
+    return true
   }
 
-  // Provide width to calculate scaling ratio
-  // Number value represents actual width after scaling
-  // String with % represents percentage
-  if (side === 'w') {
-    const rate = isPrecent
-      ? (value / 100 * size.width) / size.width // Calculate actual value then divide by width to get ratio
-      : value / size.width // Directly divide by width to get ratio
-    return rate
+  // Numeric values with units
+  if (Number.isNaN(Number(value))) {
+    // const match = value.match(/^[-+]?\d+(?:\.\d+)?(?:[a-z]+)?$/i)
+    return {
+      message: `Invalid value: ${value}, expected number or percentage`,
+    }
   }
 
-  // Provide height to calculate scaling ratio
-  // Number value represents actual height after scaling
-  // String with % represents percentage
-  if (side === 'h') {
-    const rate = isPrecent
-      ? (value / 100 * size.height) / size.height // Calculate actual value then divide by height to get ratio
-      : value / size.height // Directly divide by height to get ratio
-    return rate
-  }
-
-  return 1
-}
-
-function defaultTransformSize(value: number): string {
-  return `${value}px`
+  return true
 }

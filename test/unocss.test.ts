@@ -63,18 +63,18 @@ describe('rule', async () => {
 
 describe('scaling', async () => {
   const classnames = [
-    { name: 'autobg-[url(/foo.png)]', success: `width:2px;height:2px;` },
-    { name: 'autobg-[url(/foo.png)]-w200', success: `width:200px;height:200px;` },
-    { name: 'autobg-[url(/foo.png)]-h200', success: `width:200px;height:200px;` },
-    { name: 'autobg-[url(/foo.png)]-0.78', success: `width:1.56px;height:1.56px;` },
-    { name: 'autobg-[url(/foo.png)]-78%', success: `width:1.56px;height:1.56px;` },
+    { name: 'autobg-[url(/foo.png)]', contain: `width:2px;height:2px;` },
+    { name: 'autobg-[url(/foo.png)]-w200', contain: `width:200px;height:200px;` },
+    { name: 'autobg-[url(/foo.png)]-h200', contain: `width:200px;height:200px;` },
+    { name: 'autobg-[url(/foo.png)]-0.78', contain: `width:1.56px;height:1.56px;` },
+    { name: 'autobg-[url(/foo.png)]-78%', contain: `width:1.56px;height:1.56px;` },
 
-    { name: 'autobg-asp-[url(/foo.png)]', success: `aspect-ratio:2/2;width:2px;` },
-    { name: 'autobg-asp-[url(/foo.png)]-w', success: `aspect-ratio:2/2;width:2px;` },
-    { name: 'autobg-asp-[url(/foo.png)]-w200', success: `aspect-ratio:2/2;width:200px;` },
-    { name: 'autobg-asp-[url(/foo.png)]-h200', success: `aspect-ratio:2/2;height:200px;` },
-    { name: 'autobg-asp-[url(/foo.png)]-0.78', success: `aspect-ratio:2/2;width:1.56px;` },
-    { name: 'autobg-asp-[url(/foo.png)]-78%', success: `aspect-ratio:2/2;width:1.56px;` },
+    { name: 'autobg-asp-[url(/foo.png)]', contain: `aspect-ratio:2/2;`, notContain: `width:2px;` },
+    { name: 'autobg-asp-[url(/foo.png)]-w', contain: `aspect-ratio:2/2;width:100%;` },
+    { name: 'autobg-asp-[url(/foo.png)]-w200', contain: `aspect-ratio:2/2;width:200px;` },
+    { name: 'autobg-asp-[url(/foo.png)]-h200', contain: `aspect-ratio:2/2;height:200px;` },
+    { name: 'autobg-asp-[url(/foo.png)]-0.78', contain: `aspect-ratio:2/2;height:0.78px;` },
+    { name: 'autobg-asp-[url(/foo.png)]-78%', contain: `aspect-ratio:2/2;height:78%;` },
   ]
 
   const { config, root } = configs.posix
@@ -83,10 +83,13 @@ describe('scaling', async () => {
     rules: rules(config, { root } as Store),
   })
 
-  for (const { name, success } of classnames) {
-    it(`"${name}" \t should be ${success}`, async () => {
+  for (const { name, contain, notContain } of classnames) {
+    it(`"${name}" \t should be ${contain}`, async () => {
       const result = await generator.generate(await transform(name))
-      expect(result.css).toContain(success)
+      expect(result.css).toContain(contain)
+      if (notContain) {
+        expect(result.css).not.toContain(notContain)
+      }
     })
   }
 })

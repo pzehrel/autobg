@@ -10,7 +10,10 @@ export function isDataUrl(url: string) {
 }
 
 export function isRelative(path: string) {
-  return !isHttp(path) && !isDataUrl(path) && !isAbsolute(path)
+  if (isHttp(path) || isDataUrl(path) || isAbsolute(path)) {
+    return false
+  }
+  return /^[.\w]/.test(path)
 }
 
 export function isAlias(path: string, aliasConfig: AliasConfig) {

@@ -1,14 +1,17 @@
 # 🎨 @autobg/unocss
 
-一个 UnoCSS 预设插件，能够根据本地图片路径自动生成完整的背景样式（包含 `background-image`、`width` 和 `height` 属性），让您的开发工作事半功倍。
+[![npm version](https://img.shields.io/npm/v/@autobg/unocss.svg?style=flat)](https://www.npmjs.com/package/@autobg/unocss)
+[![npm downloads](https://img.shields.io/npm/dm/@autobg/unocss.svg?style=flat)](https://www.npmjs.com/package/@autobg/unocss)
+
+> 能够根据本地图片路径为元素生成完整的背景图和宽高样式的 UnoCSS 预设。
 
 ## ✨ 核心特性
 
-- 🚀 完美支持 Vite 构建工具
-- 🔄 识别图片尺寸并自动应用
-- 📍 灵活支持相对路径和路径别名
-- 🎨 与 UnoCSS 生态系统无缝集成
-- 📐 支持多种灵活的缩放模式
+- 🚀 **完美支持** Vite 构建工具
+- 🔄 **智能识别** 图片尺寸并自动应用
+- 📍 **灵活支持** 相对路径和路径别名
+- 🎨 **无缝集成** UnoCSS 生态系统
+- 📐 **多种模式** 提供灵活的缩放选项
 
 > ⚠️ **注意**：暂不支持 `unocss@66.1.0` 版本，该版本处于 beta 阶段，preset 机制有所变化。
 
@@ -30,7 +33,15 @@ import { defineConfig } from 'unocss'
 export default defineConfig({
   presets: [
     autobgPreset({
+      // 使用绝对路径，而不是 process.cwd()。
+      // 因为 VSCode 的 unocss 扩展在调用 preset 的 transformer 时不会传递项目根目录路径。
+      // 这会导致代码高亮工具提示不正确，但不会影响实际的类名生成。
       root: import.meta.env.dirname,
+
+      // 转换 width 和 height 的值，可以为其添加样式单位
+      // 默认会转换为 `px` 单位
+      // 这只是一个临时方案，未来可能会废弃
+      transformSize: value => `${value}px`,
     }),
   ],
 })
@@ -122,15 +133,15 @@ export default defineConfig({
 
 #### 基础用法
 
-不指定宽高时，仅生成背景和宽高比，需要手动添加宽度或高度：
+不指定宽高时，仅生成背景和宽高比：
 
 ```tsx
 <div className="autobg-aspect-['url(/foo.png)']" />
 ```
 
-#### 指定生成宽度或高度
+#### 📐 指定生成宽度或高度
 
-自动生成一个维度的值（默认100%），并智能保持原图宽高比：
+自动生成一个维度的值（默认100%）：
 
 ```tsx
 // 生成高度，保持原图宽高比
@@ -142,39 +153,40 @@ export default defineConfig({
 
 #### 自定义比例
 
-提供百分比或小数值，精确设置对应维度：
+设置宽高：
 
 ```tsx
-// 设置高度为78%，宽度按比例计算
-<div className="autobg-aspect-['url(/foo.png)']-h-78%" />
-<div className="autobg-aspect-['url(/foo.png)']-h-0.78" />
+<div className="autobg-aspect-['url(/foo.png)']-h78%" />
+<div className="autobg-aspect-['url(/foo.png)']-h78" />
+<div className="autobg-aspect-['url(/foo.png)']-h78rem" />
 
-// 设置宽度为78%，高度按比例计算
-<div className="autobg-aspect-['url(/foo.png)']-w-78%" />
-<div className="autobg-aspect-['url(/foo.png)']-w-0.78" />
+<div className="autobg-aspect-['url(/foo.png)']-w78%" />
+<div className="autobg-aspect-['url(/foo.png)']-w78" />
+<div className="autobg-aspect-['url(/foo.png)']-w78rem" />
 ```
 
-> 💡 **提示**：在 aspect 模式下，数值和百分比都会被换算为百分比值。这与普通模式下的缩放行为不同，普通模式中数值表示具体像素值。
+> 💡 **提示**：在 aspect 模式下，值会直接设置到 width 或 height 属性上，不会经过转换。
 
-### 📋 缩放选项总览
+## 📋 规则总览
 
-| 选项              | 语法                                  | 功能描述                                                           |
-| ----------------- | ------------------------------------- | ------------------------------------------------------------------ |
-| 宽度缩放          | `autobg-['url(...)']-w{数值}`         | 固定宽度，高度按比例自动计算（数值表示像素值）                     |
-| 高度缩放          | `autobg-['url(...)']-h{数值}`         | 固定高度，宽度按比例自动计算（数值表示像素值）                     |
-| 整体缩放          | `autobg-['url(...)']-{数值或百分比}`  | 按比例统一缩放两个维度（数值表示像素值，百分比表示缩放比例）       |
-| 宽高比模式-宽度   | `autobg-aspect-['url(...)']-w`        | 生成宽度并设置 aspect-ratio，保持原图宽高比                        |
-| 宽高比模式-高度   | `autobg-aspect-['url(...)']-h`        | 生成高度并设置 aspect-ratio，保持原图宽高比                        |
-| 宽高比模式-自定义 | `autobg-aspect-['url(...)']-w-{数值}` | 设置宽度为指定比例并保持原图宽高比（数值和百分比都被视为百分比值） |
-| 宽高比模式-自定义 | `autobg-aspect-['url(...)']-h-{数值}` | 设置高度为指定比例并保持原图宽高比（数值和百分比都被视为百分比值） |
+| 选项                | 语法                                 | 功能描述                                                       |
+| ------------------- | ------------------------------------ | -------------------------------------------------------------- |
+| 宽度缩放            | `autobg-['url(...)']-w{数值}`        | 固定宽度，高度按比例自动计算（数值表示像素值）                 |
+| 高度缩放            | `autobg-['url(...)']-h{数值}`        | 固定高度，宽度按比例自动计算（数值表示像素值）                 |
+| 整体缩放            | `autobg-['url(...)']-{数值或百分比}` | 按比例统一缩放两个维度（数值表示百分小数，百分比表示缩放比例） |
+| 宽高比模式-宽度     | `autobg-aspect-['url(...)']-w`       | 生成宽度并设置 aspect-ratio，保持原图宽高比                    |
+| 宽高比模式-高度     | `autobg-aspect-['url(...)']-h`       | 生成高度并设置 aspect-ratio，保持原图宽高比                    |
+| 宽高比模式-自定义宽 | `autobg-aspect-['url(...)']-w{数值}` | 设置宽度为指定比例并保持原图宽高比                             |
+| 宽高比模式-自定义高 | `autobg-aspect-['url(...)']-h{数值}` | 设置高度为指定比例并保持原图宽高比                             |
 
 ## ⚙️ 配置项详解
 
-| 配置项     | 类型                     | 默认值                                         | 说明                                                                          |
-| ---------- | ------------------------ | ---------------------------------------------- | ----------------------------------------------------------------------------- |
-| publicPath | `string`                 | `'public'`                                     | public 目录路径，需与构建工具配置保持一致                                     |
-| alias      | `Record<string, string>` | `{ '@/': 'src/', '~': 'src/', '~@/': 'src/' }` | 路径别名配置，需与构建工具配置保持一致<br>若不使用路径别名，请传入空对象 `{}` |
-| root       | `string`                 | `undefined`                                    | 项目根目录路径<br>若不提供，将无法在 VSCode unocss 扩展中正确预览样式类       |
+| 配置项        | 类型                                 | 默认值                                         | 说明                                                                          |
+| ------------- | ------------------------------------ | ---------------------------------------------- | ----------------------------------------------------------------------------- |
+| publicPath    | `string`                             | `'public'`                                     | public 目录路径，需与构建工具配置保持一致                                     |
+| alias         | `Record<string, string>`             | `{ '@/': 'src/', '~': 'src/', '~@/': 'src/' }` | 路径别名配置，需与构建工具配置保持一致<br>若不使用路径别名，请传入空对象 `{}` |
+| root          | `string`                             | `undefined`                                    | 项目根目录路径<br>若不提供，将无法在 VSCode unocss 扩展中正确预览样式类       |
+| transformSize | `(size: number) => string \| number` | `undefined`                                    | 转换 width 和 height 的值，可以为其添加样式单位                               |
 
 ## 📄 许可证
 

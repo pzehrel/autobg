@@ -1,73 +1,63 @@
 import type { HighlightAnnotation, SourceCodeTransformer } from '@unocss/core'
-import type MagicString from 'magic-string'
 import type { RequiredAutobgUnocssConfig } from './config'
 import type { Store } from './store'
-import { dirname, join } from 'node:path'
-import { isAlias, isRelative, normalizePath } from '@autobg/shared'
+import { isRelative, normalizePath } from '@autobg/shared'
+import { dirname, join, normalize } from 'pathe'
 import { name as PKG_NAME } from '../package.json'
+import { createRuleRegExps } from './rules'
 
-const cssUrlRE = /url\(['"]?(.+?)(['"])?\)/g
+const URL_RE = /url\(['"]?(.+?)(['"])?\)/
 
-/** autobg */
-const autobgRE = /autobg-\[(.+?)\](?:-((?:[whs]|width|height|scale)-?)?(\d+(?:\.\d+)?%?))?/g
-
-/** autobg-aspect */
-const autobgAspectRE = /autobg-(?:asp|aspect)-\[(.+?)\](?:-(([whs]|width|height|scale))?(-?\d+(?:\.\d+)?%?)?)?/g
+const exactRegExps = createRuleRegExps().map(([regexp]) => regexp)
 
 export function transformer(config: RequiredAutobgUnocssConfig, store: Store): SourceCodeTransformer {
-  function handle(match: RegExpExecArray, code: MagicString, id: string, annotations: HighlightAnnotation[]) {
-    const [pattern, rawpath] = match
-
-    if (!pattern) {
-      return
-    }
-
-    let csspath = normalizePath(rawpath)
-    if (!csspath) {
-      return
-    }
-
-    // Vite does not parse relative paths, so they need to be converted to absolute paths based on the project root directory.
-    if (store.root && !isAlias(csspath, config.alias) && isRelative(csspath)) {
-      const tmp = join(dirname(id), csspath)
-        .replace(/\\/g, '/') // make sure the path is posix path
-      csspath = tmp.replace(store.root, '')
-    }
-
-    const className = pattern.replace(cssUrlRE, (_, __, quote = '') => `url(${quote}${csspath}${quote})`)
-
-    const length = pattern.length
-    const start = match.index
-    const end = start + length
-    code.overwrite(start, end, className)
-
-    annotations.push({
-      offset: start,
-      length,
-      className: className.trim(),
-    })
-  }
-
   return {
     name: `${PKG_NAME}:transformer`,
     enforce: 'pre',
-    idFilter: id => !id.includes('uno.css'),
     transform(code, id, ctx) {
       store.updateRoot({ configRoot: config.root, ctxRoot: ctx.root })
-
       id = id.replace(/\\/g, '/')
 
       const annotations: HighlightAnnotation[] = []
 
-      for (const match of code.original.matchAll(autobgRE)) {
-        handle(match, code, id, annotations)
-      }
+      const fuzzyMatches = code.original.matchAll(/autobg(?:-asp|-aspect)?-\[url\(.+?\)\][a-zA-Z0-9-%]*/g)
+      for (const { index, 0: original } of fuzzyMatches) {
+        const exactMatch = find(exactRegExps, regexp => original.match(regexp))
+        if (!exactMatch) {
+          return
+        }
+        const { 0: pattern, 1: rawpath } = exactMatch
+        const csspath = normalizePath(rawpath)
 
-      for (const match of code.original.matchAll(autobgAspectRE)) {
-        handle(match, code, id, annotations)
+        let path = csspath
+        let className = pattern
+
+        // Vite does not parse relative paths, so they need to be converted to absolute paths based on the project root directory.
+        if (store.root && isRelative(csspath)) {
+          path = join(dirname(id), csspath).replace(normalize(store.root), '')
+          className = pattern.replace(URL_RE, (_, __, quote = '') => `url(${quote}${path}${quote})`)
+        }
+
+        const length = pattern.length
+        const start = index
+        const end = start + length
+
+        code.overwrite(start, end, className)
+        annotations.push({ offset: start, length, className })
       }
 
       return { highlightAnnotations: annotations }
     },
   }
+}
+
+function find<Item, T>(array: Item[], callback: (item: Item) => T | undefined): T | undefined {
+  for (const item of array) {
+    const result = callback(item)
+    if (result) {
+      return result
+    }
+  }
+
+  return undefined
 }

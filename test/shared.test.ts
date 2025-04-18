@@ -105,8 +105,8 @@ describe('utils', () => {
   })
 
   it('is relative', () => {
-    expect(isRelative('@/assets/foo.png')).toBe(true)
-    expect(isRelative('~@/assets/foo.png')).toBe(true)
+    expect(isRelative('@/assets/foo.png')).toBe(false)
+    expect(isRelative('~@/assets/foo.png')).toBe(false)
     expect(isRelative('./assets/foo.png')).toBe(true)
     expect(isRelative('../assets/foo.png')).toBe(true)
     expect(isRelative('/assets/foo.png')).toBe(false)

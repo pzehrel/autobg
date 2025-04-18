@@ -48,12 +48,14 @@
     "stub": "unbuild --stub"
   },
   "peerDependencies": {
-    "image-size": "catalog:"
+    "image-size": "catalog:",
+    "pathe": "catalog:"
   },
   "dependencies": {
     "@unocss/core": "catalog:"
   },
   "devDependencies": {
-    "image-size": "catalog:"
+    "image-size": "catalog:",
+    "pathe": "catalog:"
   }
 }
