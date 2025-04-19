@@ -25,5 +25,8 @@
     "packages/**/*.tsx",
     "test/**/*.ts",
     "test/**/*.tsx"
+  ],
+  "exclude": [
+    "**/dist"
   ]
 }
