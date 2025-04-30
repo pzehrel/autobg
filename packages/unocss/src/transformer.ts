@@ -4,11 +4,14 @@ import type { Store } from './store'
 import { isRelative, normalizePath } from '@autobg/shared'
 import { dirname, join, normalize } from 'pathe'
 import { name as PKG_NAME } from '../package.json'
-import { createRuleRegExps } from './rules'
+import { aspect, autobg } from './rules'
 
 const URL_RE = /url\(['"]?(.+?)(['"])?\)/
 
-const exactRegExps = createRuleRegExps().map(([regexp]) => regexp)
+const FUZZY_REGEXP = new RegExp([
+  ...autobg.fuzzyPatterns.flat(),
+  ...aspect.fuzzyPatterns.flat(),
+].join('|'), 'g')
 
 export function transformer(config: RequiredAutobgUnocssConfig, store: Store): SourceCodeTransformer {
   return {
@@ -19,10 +22,8 @@ export function transformer(config: RequiredAutobgUnocssConfig, store: Store): S
       id = id.replace(/\\/g, '/')
 
       const annotations: HighlightAnnotation[] = []
-
-      const fuzzyMatches = code.original.matchAll(/autobg(?:-asp|-aspect)?-\[url\(.+?\)\][a-zA-Z0-9-%]*/g)
-      for (const { index, 0: original } of fuzzyMatches) {
-        const exactMatch = find(exactRegExps, regexp => original.match(regexp))
+      for (const { index, 0: original, groups } of code.original.matchAll(FUZZY_REGEXP)) {
+        const exactMatch = find(switchExactMatch(groups), regexp => original.match(regexp))
         if (!exactMatch) {
           return
         }
@@ -60,4 +61,14 @@ function find<Item, T>(array: Item[], callback: (item: Item) => T | undefined): 
   }
 
   return undefined
+}
+
+function switchExactMatch(groups?: Record<string, string>) {
+  if (groups?.autobg) {
+    return autobg.exactPatterns
+  }
+  if (groups?.aspect) {
+    return aspect.exactPatterns
+  }
+  return []
 }

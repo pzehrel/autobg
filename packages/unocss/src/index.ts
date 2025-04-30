@@ -2,7 +2,7 @@ import type { AutobgUnocssConfig } from './config'
 import { resolveConfig } from '@autobg/shared'
 import { definePreset } from '@unocss/core'
 import { name } from '../package.json'
-import { rules } from './rules'
+import { createRules } from './rules'
 import { createStore } from './store'
 import { transformer } from './transformer'
 
@@ -18,6 +18,6 @@ export const presetAutobg = definePreset<AutobgUnocssConfig, object>((config) =>
     name,
     layer: 'base',
     transformers: [transformer(opts, store)],
-    rules: rules(opts, store),
+    rules: createRules(opts, store),
   }
 })

@@ -3,7 +3,7 @@ import type { Store } from '../packages/unocss/src/store'
 import { createGenerator } from '@unocss/core'
 import MagicString from 'magic-string'
 import { describe, expect, it } from 'vitest'
-import { rules } from '../packages/unocss/src/rules'
+import { createRules } from '../packages/unocss/src/rules'
 import { createStore } from '../packages/unocss/src/store'
 import { transformer as autobgTransformer } from '../packages/unocss/src/transformer'
 import { configs, paths } from './util'
@@ -41,7 +41,7 @@ describe('rule', async () => {
   for (const [platform, { config, root }] of Object.entries(configs)) {
     const transform = createTransformer(platform as keyof typeof configs)
     const generator = await createGenerator({
-      rules: rules(config, { root } as Store),
+      rules: createRules(config, { root } as Store),
     })
 
     for (const { type, exist, path, realpath } of paths) {
@@ -80,7 +80,7 @@ describe('scaling', async () => {
   const { config, root } = configs.posix
   const transform = createTransformer('posix')
   const generator = await createGenerator({
-    rules: rules(config, { root } as Store),
+    rules: createRules(config, { root } as Store),
   })
 
   for (const { name, contain, notContain } of classnames) {
